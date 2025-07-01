@@ -15,14 +15,14 @@ public static class SortingExtension
         MemberExpression selector;
         try
         {
-            selector = Expression.PropertyOrField(parameter, sorting.OrderBy!);
+            selector = Expression.PropertyOrField(parameter, sorting.OrderType!);
         }
         catch
         {
             throw new InvalidOperationException("Specified property is not found");
         }
 
-        var method = string.Equals(sorting?.OrderType ?? "asc", "desc", StringComparison.OrdinalIgnoreCase) ? "OrderByDescending" : "OrderBy";
+        var method = string.Equals(sorting?.OrderBy ?? "asc", "desc", StringComparison.OrdinalIgnoreCase) ? "OrderByDescending" : "OrderBy";
 
         expression = Expression.Call(typeof(Queryable), method,
             new Type[] { source.ElementType, selector.Type },

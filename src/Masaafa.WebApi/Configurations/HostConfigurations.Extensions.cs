@@ -1,10 +1,12 @@
-﻿using Masaafa.Application.Settings;
+﻿using Masaafa.Application.Common.Abstractions;
+using Masaafa.Application.Settings;
 using Masaafa.Persistence.UnitOfWork.Interfaces;
 using Masaafa.WebApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
 
@@ -27,7 +29,10 @@ public static partial class HostConfigurations
 
         services.AddSwagger();
         services.AddExceptionHandler();
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddSecurity(configuration);
+        services.AddServices(configuration);
+        services.AddMiddlewares(configuration);
     }
 
     private static void AddExceptionHandler(this IServiceCollection services)
@@ -65,8 +70,6 @@ public static partial class HostConfigurations
 
     private static void AddSecurity(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<IUserContext, HttpUserContext>();
-
         services.Configure<SystemSettings>(configuration.GetSection(nameof(SystemSettings)));
         services.Configure<JwtSettings>(configuration.GetSection(nameof(JwtSettings)));
         var jwtSettings = configuration.GetSection(nameof(JwtSettings)).Get<JwtSettings>()
@@ -90,5 +93,19 @@ public static partial class HostConfigurations
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.SecretKey))
                 };
             });
+    }
+
+    private static void AddServices(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddScoped<IUserContext, HttpUserContext>();
+        services.AddScoped<IHeaderService, HeaderService>();
+    }
+
+    private static void AddMiddlewares(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddRouting(options =>
+        {
+            options.LowercaseUrls = true;
+        });
     }
 }
