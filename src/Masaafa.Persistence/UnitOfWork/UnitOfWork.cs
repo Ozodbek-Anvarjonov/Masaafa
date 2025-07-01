@@ -1,4 +1,4 @@
-﻿using Masaafa.Persistence.DataContext;
+﻿using Masaafa.Persistence.Repositories.Interfaces;
 using Masaafa.Persistence.UnitOfWork.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
@@ -11,10 +11,20 @@ public class UnitOfWork<TContext> : IUnitOfWork where TContext : DbContext
     private IDbContextTransaction? _currentTransaction;
     private bool _disposed;
 
-    public UnitOfWork(TContext context) =>
+    public bool HasActiveTransaction => _currentTransaction != null;
+
+    public UnitOfWork(TContext context, IUserRepository userRepository)
+    {
         _dbContext = context ?? throw new ArgumentNullException(nameof(context));
 
-    public bool HasActiveTransaction => _currentTransaction != null;
+        // Repositories
+        Users = userRepository;
+    }
+
+    #region Repositories
+    public IUserRepository Users { get; }
+
+    #endregion
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default) =>
         await _dbContext.SaveChangesAsync(cancellationToken);
