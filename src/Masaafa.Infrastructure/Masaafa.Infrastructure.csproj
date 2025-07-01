@@ -6,4 +6,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Common\Identity\" />
+    <Folder Include="Common\Notifications\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Masaafa.Application\Masaafa.Application.csproj" />
+    <ProjectReference Include="..\Masaafa.Persistence\Masaafa.Persistence.csproj" />
+  </ItemGroup>
+
 </Project>

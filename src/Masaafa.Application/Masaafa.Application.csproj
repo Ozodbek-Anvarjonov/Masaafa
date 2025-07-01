@@ -6,4 +6,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Common\Identity\" />
+    <Folder Include="Common\Notifications\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Masaafa.Domain\Masaafa.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
