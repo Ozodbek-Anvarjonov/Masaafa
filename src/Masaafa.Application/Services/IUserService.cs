@@ -13,6 +13,8 @@ public interface IUserService
 
     Task<User> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
+    Task<User> GetByPhoneNumberAsync(string phoneNumber, CancellationToken cancellationToken = default);
+
     Task<User> CreateAsync(User user, CancellationToken cancellationToken = default);
 
     Task<User> UpdateAsync(Guid id, User user, CancellationToken cancellationToken = default);

@@ -3,18 +3,21 @@ using Masaafa.Application.Common.Abstractions;
 using Masaafa.Application.Services;
 using Masaafa.Domain.Common.Pagination;
 using Masaafa.Domain.Entities;
+using Masaafa.Domain.Enums;
+using Masaafa.WebApi.Filters;
 using Masaafa.WebApi.Models.Users;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Masaafa.WebApi.Controllers;
 
+[CustomAuthorize(nameof(UserRole.Client))]
 public class UsersController(IUserService userService, IHeaderService headerService, IMapper mapper) : BaseController
 {
     [HttpGet]
     public async ValueTask<IActionResult> Get(
         [FromQuery] PaginationParams @params,
         [FromQuery] Filter filter,
-        string? search = null)
+        [FromQuery] string? search = null)
     {
         var result = await userService.GetAsync(@params, filter, search, CancellationToken);
 

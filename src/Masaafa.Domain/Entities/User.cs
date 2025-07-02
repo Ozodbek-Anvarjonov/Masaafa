@@ -15,5 +15,5 @@ public class User : SoftDeletedEntity
 
     public string PhoneNumber { get; set; } = default!;
 
-    UserRole Role { get; set; }
+    public UserRole Role { get; set; }
 }

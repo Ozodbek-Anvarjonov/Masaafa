@@ -27,6 +27,14 @@ public class UserService(IUnitOfWork unitOfWork) : IUserService
         return entity;
     }
 
+    public async Task<User> GetByPhoneNumberAsync(string phoneNumber, CancellationToken cancellationToken = default)
+    {
+        var entity = await unitOfWork.Users.GetByPhoneNumberAsync(phoneNumber, cancellationToken: cancellationToken)
+            ?? throw new NotFoundException(nameof(User), nameof(User.PhoneNumber), phoneNumber);
+
+        return entity;
+    }
+
     public async Task<User> CreateAsync(User user, CancellationToken cancellationToken = default)
     {
         var entity = await unitOfWork.Users.CreateAsync(user, saveChanges: true, cancellationToken: cancellationToken);

@@ -23,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ExceptionHandlers\" />
+    <Folder Include="Middlewares\" />
   </ItemGroup>
 
 </Project>

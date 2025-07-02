@@ -16,6 +16,8 @@ public interface IUserRepository
 
     Task<User?> GetByIdAsync(Guid id, bool asNoTracking = true, CancellationToken cancellationToken = default);
 
+    Task<User?> GetByPhoneNumberAsync(string phoneNumber, bool asNoTracking = true, CancellationToken cancellationToken = default);
+
     Task<User> CreateAsync(User user, bool saveChanges = false, CancellationToken cancellationToken = default);
 
     Task<User> UpdateAsync(User user, bool saveChanges = false, CancellationToken cancellationToken = default);

@@ -1,6 +1,7 @@
 ﻿using Masaafa.Application.Common.Abstractions;
 using Masaafa.Application.Settings;
 using Masaafa.Persistence.UnitOfWork.Interfaces;
+using Masaafa.WebApi.ExceptionHandlers;
 using Masaafa.WebApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Json;
@@ -21,7 +22,6 @@ public static partial class HostConfigurations
         services.AddAuthorization();
         services.AddHttpContextAccessor();
         //services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-        //services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.Configure<JsonOptions>(options =>
         {
             options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
@@ -38,6 +38,8 @@ public static partial class HostConfigurations
     private static void AddExceptionHandler(this IServiceCollection services)
     {
         services.AddProblemDetails();
+
+        services.AddExceptionHandler<AppExceptionHandler>();
     }
 
 

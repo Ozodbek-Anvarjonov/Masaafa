@@ -1,4 +1,7 @@
-﻿namespace Masaafa.WebApi.Models.Users;
+﻿using Masaafa.Domain.Enums;
+using System.Text.Json.Serialization;
+
+namespace Masaafa.WebApi.Models.Users;
 
 public class UserResponse
 {
@@ -13,4 +16,7 @@ public class UserResponse
     public string CardCode { get; set; } = default!;
 
     public string PhoneNumber { get; set; } = default!;
+
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public UserRole Role { get; set; } = default!;
 }

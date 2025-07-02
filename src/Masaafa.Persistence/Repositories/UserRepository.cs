@@ -37,6 +37,16 @@ public class UserRepository(AppDbContext context) : EntityRepositoryBase<User, A
         return await exist.FirstOrDefaultAsync(cancellationToken);
     }
 
+    public async Task<User?> GetByPhoneNumberAsync(string phoneNumber, bool asNoTracking = true, CancellationToken cancellationToken = default)
+    {
+        var exist = Set.Where(entity => entity.PhoneNumber == phoneNumber && !entity.IsDeleted);
+
+        if (asNoTracking)
+            exist = exist.AsNoTracking();
+
+        return await exist.FirstOrDefaultAsync(cancellationToken);
+    }
+
     public new IQueryable<User> Get() =>
         base.Get();
 

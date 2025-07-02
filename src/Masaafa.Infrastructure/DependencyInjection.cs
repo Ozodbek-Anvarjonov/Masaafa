@@ -1,4 +1,6 @@
-﻿using Masaafa.Application.Services;
+﻿using Masaafa.Application.Common.Identity;
+using Masaafa.Application.Services;
+using Masaafa.Infrastructure.Common.Identity;
 using Masaafa.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +24,8 @@ public static class DependencyInjection
 
         // Services
         services
-            .AddScoped<IUserService, UserService>();
-
+            .AddScoped<IUserService, UserService>()
+            .AddScoped<IAccountService, AccountService>()
+            .AddScoped<ITokenGeneratorService, JwtTokenGeneratorService>();
     }
 }

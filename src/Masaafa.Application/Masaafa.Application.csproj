@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Identity\" />
     <Folder Include="Common\Notifications\" />
   </ItemGroup>
 

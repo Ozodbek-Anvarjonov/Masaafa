@@ -30,8 +30,8 @@ public static class PaginationExtension
             .Skip((@params.PageNumber - 1) * @params.PageSize)
             .Take(@params.PageSize);
 
-        var pagedItems = await source.ToListAsync();
-        var pagedResult = new PaginationResult<T>(pagedItems, new PaginationMetaData(totalCount, @params));
+        var paginationResult = await source.ToListAsync();
+        var pagedResult = new PaginationResult<T>(paginationResult, new PaginationMetaData(totalCount, @params));
 
         return pagedResult;
     }
