@@ -1,6 +1,6 @@
 ﻿namespace Masaafa.Domain.Enums;
 
-public enum TransferRequestStatus
+public enum OrderConformationStatus
 {
     New,
     Approved,

@@ -1,10 +1,14 @@
-﻿using Masaafa.Domain.Common.Entities;
+﻿namespace Masaafa.Domain.Entities;
 
-namespace Masaafa.Domain.Entities;
-
-public class WareHouse : SoftDeletedEntity
+public class Warehouse
 {
     public string Name { get; set; } = default!;
 
     public string Code { get; set; } = default!;
+
+    public string Address { get; set; } = default!;
+
+    public bool IsActive { get; set; } = true;
+
+    public IEnumerable<Warehouse> Items { get; set; }
 }

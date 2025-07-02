@@ -2,7 +2,7 @@
 
 public enum TransferProcessStatus
 {
-    OnProcess = 1,
-    Left = 2,
-    Done = 3
+    OnProcess,
+    Left,
+    Done,
 }

@@ -1,8 +1,9 @@
 ﻿namespace Masaafa.Domain.Enums;
 
-public enum TransferRequestStatus
+public enum TransferItemStatus
 {
-    New,
+    Pending,
     Approved,
+    Completed,
     Rejected,
 }
