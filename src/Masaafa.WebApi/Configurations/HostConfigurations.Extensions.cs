@@ -40,6 +40,7 @@ public static partial class HostConfigurations
         services.AddProblemDetails();
 
         services.AddExceptionHandler<AppExceptionHandler>();
+        services.AddExceptionHandler<InternalServerExceptionHandler>();
     }
 
 

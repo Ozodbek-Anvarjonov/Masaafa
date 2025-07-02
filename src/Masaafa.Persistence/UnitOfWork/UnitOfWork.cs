@@ -13,16 +13,19 @@ public class UnitOfWork<TContext> : IUnitOfWork where TContext : DbContext
 
     public bool HasActiveTransaction => _currentTransaction != null;
 
-    public UnitOfWork(TContext context, IUserRepository userRepository)
+    public UnitOfWork(TContext context, IClientRepository userRepository, IEmployeeRepository employeeRepository)
     {
         _dbContext = context ?? throw new ArgumentNullException(nameof(context));
 
         // Repositories
-        Users = userRepository;
+        Clients = userRepository;
+        Employees = employeeRepository;
     }
 
     #region Repositories
-    public IUserRepository Users { get; }
+    public IClientRepository Clients { get; }
+
+    public IEmployeeRepository Employees { get; }
 
     #endregion
 

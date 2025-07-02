@@ -24,7 +24,8 @@ public static class DependencyInjection
 
         // Services
         services
-            .AddScoped<IUserService, UserService>()
+            .AddScoped<IClientService, ClientService>()
+            .AddScoped<IEmployeeService, EmployeeService>()
             .AddScoped<IAccountService, AccountService>()
             .AddScoped<ITokenGeneratorService, JwtTokenGeneratorService>();
     }

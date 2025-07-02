@@ -4,7 +4,9 @@ namespace Masaafa.Persistence.UnitOfWork.Interfaces;
 
 public interface IUnitOfWork : ITransactionManager, IDisposable, IAsyncDisposable
 {
-    IUserRepository Users { get; }
+    IClientRepository Clients { get; }
+
+    IEmployeeRepository Employees { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

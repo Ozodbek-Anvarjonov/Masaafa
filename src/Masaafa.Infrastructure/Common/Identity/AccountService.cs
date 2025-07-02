@@ -4,20 +4,29 @@ using Masaafa.Domain.Entities;
 
 namespace Masaafa.Infrastructure.Common.Identity;
 
-public class AccountService(IUserService userService, ITokenGeneratorService tokenGeneratorService) : IAccountService
+public class AccountService(IClientService clientService, IEmployeeService employeeService, ITokenGeneratorService tokenGeneratorService) : IAccountService
 {
-    public async Task<(User User, string Token)> SignInAsync(User user, CancellationToken cancellationToken = default)
+    public async Task<(Client Client, string Token)> SignInAsync(Client client, CancellationToken cancellationToken = default)
     {
-        var exist = await userService.GetByPhoneNumberAsync(user.PhoneNumber, cancellationToken);
+        var exist = await clientService.GetByPhoneNumberAsync(client.PhoneNumber, cancellationToken);
 
         var token = await tokenGeneratorService.GenerateTokenAsync(exist, cancellationToken);
 
         return new(exist, token);
     }
 
-    public async Task<bool> SignUpAsync(User user, CancellationToken cancellationToken = default)
+    public async Task<(Employee Employee, string Token)> SignInAsync(Employee employee, CancellationToken cancellationToken = default)
     {
-        var entity = await userService.CreateAsync(user, cancellationToken);
+        var exist = await employeeService.GetByPhoneNumberAsync(employee.PhoneNumber, cancellationToken);
+
+        var token = await tokenGeneratorService.GenerateTokenAsync(exist, cancellationToken);
+
+        return new(exist, token);
+    }
+
+    public async Task<bool> SignUpAsync(Client client, CancellationToken cancellationToken = default)
+    {
+        var entity = await clientService.CreateAsync(client, cancellationToken);
 
         return entity is not null ? true : false;
     }

@@ -43,6 +43,7 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork, UnitOfWork<AppDbContext>>();
 
         // Repositories
-        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IClientRepository, ClientRepository>();
+        services.AddScoped<IEmployeeRepository, EmployeeRepository>();
     }
 }

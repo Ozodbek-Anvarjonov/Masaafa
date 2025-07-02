@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Masaafa.Persistence.Repositories;
 
-public class UserRepository(AppDbContext context) : EntityRepositoryBase<User, AppDbContext>(context), IUserRepository
+public class ClientRepository(AppDbContext context) : EntityRepositoryBase<Client, AppDbContext>(context), IClientRepository
 {
-    public async Task<PaginationResult<User>> GetAsync(
+    public async Task<PaginationResult<Client>> GetAsync(
         PaginationParams @params,
         Filter filter,
         string? search = null,
@@ -27,7 +27,7 @@ public class UserRepository(AppDbContext context) : EntityRepositoryBase<User, A
         return await exists.ToPaginateAsync(@params);
     }
 
-    public async Task<User?> GetByIdAsync(Guid id, bool asNoTracking = true, CancellationToken cancellationToken = default)
+    public async Task<Client?> GetByIdAsync(Guid id, bool asNoTracking = true, CancellationToken cancellationToken = default)
     {
         var exist = Set.Where(entity => entity.Id == id && !entity.IsDeleted);
 
@@ -37,7 +37,7 @@ public class UserRepository(AppDbContext context) : EntityRepositoryBase<User, A
         return await exist.FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<User?> GetByPhoneNumberAsync(string phoneNumber, bool asNoTracking = true, CancellationToken cancellationToken = default)
+    public async Task<Client?> GetByPhoneNumberAsync(string phoneNumber, bool asNoTracking = true, CancellationToken cancellationToken = default)
     {
         var exist = Set.Where(entity => entity.PhoneNumber == phoneNumber && !entity.IsDeleted);
 
@@ -47,15 +47,15 @@ public class UserRepository(AppDbContext context) : EntityRepositoryBase<User, A
         return await exist.FirstOrDefaultAsync(cancellationToken);
     }
 
-    public new IQueryable<User> Get() =>
+    public new IQueryable<Client> Get() =>
         base.Get();
 
-    public new Task<User> CreateAsync(User user, bool saveChanges = false, CancellationToken cancellationToken = default) =>
-        base.CreateAsync(user, saveChanges: saveChanges, cancellationToken: cancellationToken);
+    public new Task<Client> CreateAsync(Client client, bool saveChanges = false, CancellationToken cancellationToken = default) =>
+        base.CreateAsync(client, saveChanges: saveChanges, cancellationToken: cancellationToken);
 
-    public new Task<User> UpdateAsync(User user, bool saveChanges = false, CancellationToken cancellationToken = default) =>
-        base.UpdateAsync(user, saveChanges: saveChanges, cancellationToken: cancellationToken);
+    public new Task<Client> UpdateAsync(Client client, bool saveChanges = false, CancellationToken cancellationToken = default) =>
+        base.UpdateAsync(client, saveChanges: saveChanges, cancellationToken: cancellationToken);
 
-    public new Task<User> DeleteAsync(User user, bool saveChanges = false, CancellationToken cancellationToken = default) =>
-        base.DeleteAsync(user, saveChanges, cancellationToken);
+    public new Task<Client> DeleteAsync(Client client, bool saveChanges = false, CancellationToken cancellationToken = default) =>
+        base.DeleteAsync(client, saveChanges, cancellationToken);
 }

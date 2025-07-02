@@ -11,23 +11,35 @@ namespace Masaafa.WebApi.Controllers;
 
 public class AccountsController(IAccountService accountService, IMapper mapper) : BaseController
 {
-    [HttpGet]
-    public async ValueTask<IActionResult> Get([FromQuery] string phoneNumber)
+    [HttpGet("client")]
+    public async ValueTask<IActionResult> GetClient([FromQuery] string phoneNumber)
     {
-        var entity = await accountService.SignInAsync(new User { PhoneNumber = phoneNumber }, CancellationToken);
+        var entity = await accountService.SignInAsync(new Client { PhoneNumber = phoneNumber }, CancellationToken);
 
         return Ok(new
         {
-            User = mapper.Map<UserResponse>(entity.User),
+            User = mapper.Map<ClientResponse>(entity.Client),
             Token = entity.Token,
         });
     }
     
-    [HttpPost]
-    public async ValueTask<IActionResult> SignUp([FromBody] CreateUserRequest request)
+    [HttpPost("client")]
+    public async ValueTask<IActionResult> SignUp([FromBody] CreateClientRequest request)
     {
-        var entity = await accountService.SignUpAsync(mapper.Map<User>(request), CancellationToken);
+        var entity = await accountService.SignUpAsync(mapper.Map<Client>(request), CancellationToken);
 
         return Ok(entity);
+    }
+
+    [HttpGet("employee")]
+    public async ValueTask<IActionResult> GetEmployee([FromQuery] string phoneNumber)
+    {
+        var entity = await accountService.SignInAsync(new Employee { PhoneNumber = phoneNumber }, CancellationToken);
+
+        return Ok(new
+        {
+            User = mapper.Map<EmployeeResponse>(entity.Employee),
+            Token = entity.Token,
+        });
     }
 }

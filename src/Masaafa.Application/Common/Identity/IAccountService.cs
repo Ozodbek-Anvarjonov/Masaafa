@@ -4,7 +4,9 @@ namespace Masaafa.Application.Common.Identity;
 
 public interface IAccountService
 {
-    Task<bool> SignUpAsync(User user, CancellationToken cancellationToken = default);
+    Task<bool> SignUpAsync(Client client, CancellationToken cancellationToken = default);
 
-    Task<(User User, string Token)> SignInAsync(User user, CancellationToken cancellationToken = default);
+    Task<(Client Client, string Token)> SignInAsync(Client client, CancellationToken cancellationToken = default);
+
+    Task<(Employee Employee, string Token)> SignInAsync(Employee employee, CancellationToken cancellationToken = default);
 }
