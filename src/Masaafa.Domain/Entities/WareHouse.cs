@@ -1,6 +1,8 @@
-﻿namespace Masaafa.Domain.Entities;
+﻿using Masaafa.Domain.Common.Entities;
 
-public class Warehouse
+namespace Masaafa.Domain.Entities;
+
+public class Warehouse : SoftDeletedEntity
 {
     public string Name { get; set; } = default!;
 
