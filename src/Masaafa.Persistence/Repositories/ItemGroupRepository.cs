@@ -3,11 +3,12 @@ using Masaafa.Domain.Entities;
 using Masaafa.Persistence.DataContext;
 using Masaafa.Persistence.Extensions;
 using Masaafa.Persistence.Repositories.Interfaces;
+using Masaafa.Persistence.UnitOfWork.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Masaafa.Persistence.Repositories;
 
-public class ItemGroupRepository(AppDbContext context) : EntityRepositoryBase<ItemGroup, AppDbContext>(context), IItemGroupRepository
+public class ItemGroupRepository(AppDbContext context, IUserContext userContext) : EntityRepositoryBase<ItemGroup, AppDbContext>(context), IItemGroupRepository
 {
     public async Task<PaginationResult<ItemGroup>> GetAsync(
         PaginationParams @params,
@@ -49,6 +50,13 @@ public class ItemGroupRepository(AppDbContext context) : EntityRepositoryBase<It
     public new Task<ItemGroup> UpdateAsync(ItemGroup itemGroup, bool saveChanges = false, CancellationToken cancellationToken = default) =>
         base.UpdateAsync(itemGroup, saveChanges, cancellationToken);
 
-    public new Task<ItemGroup> DeleteAsync(ItemGroup itemGroup, bool saveChanges = false, CancellationToken cancellationToken = default) =>
-        base.DeleteAsync(itemGroup, saveChanges, cancellationToken);
+    public new async Task<ItemGroup> DeleteAsync(ItemGroup itemGroup, bool saveChanges = false, CancellationToken cancellationToken = default)
+    {
+        await Context
+            .Set<Item>()
+            .Where(entity => entity.ItemGroupId == itemGroup.Id)
+            .SoftDeleteAsync(userContext.GetRequiredUserId(), cancellationToken);
+
+        return await base.DeleteAsync(itemGroup, saveChanges, cancellationToken);
+    }
 }

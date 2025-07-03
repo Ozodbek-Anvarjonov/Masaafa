@@ -12,6 +12,14 @@ public interface IItemService
         CancellationToken cancellationToken = default
         );
 
+    Task<PaginationResult<Item>> GetByGroupIdAsync(
+        Guid groupId,
+        PaginationParams @params,
+        Filter filter,
+        string? search = null,
+        CancellationToken cancellationToken = default
+        );
+
     Task<Item> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
     Task<Item> CreateAsync(Item item, CancellationToken cancellationToken = default);

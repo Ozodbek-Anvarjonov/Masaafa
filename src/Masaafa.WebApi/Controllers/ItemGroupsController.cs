@@ -14,7 +14,8 @@ public class ItemGroupsController(
     IMapper mapper,
     IValidator<CreateItemGroupRequest> createValidator,
     IValidator<UpdateItemGroupRequest> updateValidator,
-    IItemGroupService service,
+    IItemGroupService itemGroupService,
+    IItemService itemService,
     IHeaderService headerService) : BaseController
 {
     [HttpGet]
@@ -23,17 +24,31 @@ public class ItemGroupsController(
         [FromQuery] Filter filter,
         [FromQuery] string? search = null)
     {
-        var result = await service.GetAsync(@params, filter, search, CancellationToken);
+        var result = await itemGroupService.GetAsync(@params, filter, search, CancellationToken);
 
         headerService.WritePagination(result.PaginationMetaData);
 
         return Ok(mapper.Map<IEnumerable<ItemGroupResponse>>(result.Data));
     }
 
+    [HttpGet("{itemGroupId:guid}/items")]
+    public async ValueTask<IActionResult> GetItemsById(
+        [FromRoute] Guid itemGroupId,
+        [FromQuery] PaginationParams @params,
+        [FromQuery] Filter filter,
+        [FromQuery] string? search = null)
+    {
+        var result = await itemService.GetByGroupIdAsync(itemGroupId, @params, filter, search, CancellationToken);
+
+        headerService.WritePagination(result.PaginationMetaData);
+
+        return Ok(mapper.Map<IEnumerable<ItemResponse>>(result.Data));
+    }
+
     [HttpGet("{id:guid}")]
     public async ValueTask<IActionResult> GetById([FromRoute] Guid id)
     {
-        var entity = await service.GetByIdAsync(id, CancellationToken);
+        var entity = await itemGroupService.GetByIdAsync(id, CancellationToken);
 
         return Ok(mapper.Map<ItemGroupResponse>(entity));
     }
@@ -43,7 +58,7 @@ public class ItemGroupsController(
     {
         await createValidator.EnsureValidationAsync(request);
 
-        var entity = await service.CreateAsync(mapper.Map<ItemGroup>(request), CancellationToken);
+        var entity = await itemGroupService.CreateAsync(mapper.Map<ItemGroup>(request), CancellationToken);
 
         return Ok(mapper.Map<ItemGroupResponse>(entity));
     }
@@ -53,7 +68,7 @@ public class ItemGroupsController(
     {
         await updateValidator.EnsureValidationAsync(request);
 
-        var entity = await service.UpdateAsync(id, mapper.Map<ItemGroup>(request), CancellationToken);
+        var entity = await itemGroupService.UpdateAsync(id, mapper.Map<ItemGroup>(request), CancellationToken);
 
         return Ok(mapper.Map<ItemGroupResponse>(entity));
     }
@@ -61,7 +76,7 @@ public class ItemGroupsController(
     [HttpDelete("{id:guid}")]
     public async ValueTask<IActionResult> Delete([FromRoute] Guid id)
     {
-        var result = await service.DeleteAsync(id, CancellationToken);
+        var result = await itemGroupService.DeleteAsync(id, CancellationToken);
 
         return Ok(result);
     }

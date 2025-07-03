@@ -3,11 +3,12 @@ using Masaafa.Domain.Entities;
 using Masaafa.Persistence.DataContext;
 using Masaafa.Persistence.Extensions;
 using Masaafa.Persistence.Repositories.Interfaces;
+using Masaafa.Persistence.UnitOfWork.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Masaafa.Persistence.Repositories;
 
-public class WarehouseRepository(AppDbContext context) : EntityRepositoryBase<Warehouse, AppDbContext>(context), IWarehouseRepository
+public class WarehouseRepository(AppDbContext context, IUserContext userContext) : EntityRepositoryBase<Warehouse, AppDbContext>(context), IWarehouseRepository
 {
     public async Task<PaginationResult<Warehouse>> GetAsync(
         PaginationParams @params,
@@ -49,6 +50,13 @@ public class WarehouseRepository(AppDbContext context) : EntityRepositoryBase<Wa
     public new Task<Warehouse> UpdateAsync(Warehouse warehouse, bool saveChanges = false, CancellationToken cancellationToken = default) =>
         base.UpdateAsync(warehouse, saveChanges, cancellationToken);
 
-    public new Task<Warehouse> DeleteAsync(Warehouse warehouse, bool saveChanges = false, CancellationToken cancellationToken = default) =>
-        base.DeleteAsync(warehouse, saveChanges, cancellationToken);
+    public new async Task<Warehouse> DeleteAsync(Warehouse warehouse, bool saveChanges = false, CancellationToken cancellationToken = default)
+    {
+        await Context
+            .Set<WarehouseItem>()
+            .Where(entity => entity.WarehouseId == warehouse.Id)
+            .SoftDeleteAsync(userContext.GetRequiredUserId(), cancellationToken);
+
+        return await base.DeleteAsync(warehouse, saveChanges, cancellationToken);
+    }
 }

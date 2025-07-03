@@ -20,6 +20,19 @@ public class ItemService(IUnitOfWork unitOfWork) : IItemService
         return result;
     }
 
+    public async Task<PaginationResult<Item>> GetByGroupIdAsync(
+        Guid groupId,
+        PaginationParams @params,
+        Filter filter,
+        string? search = null,
+        CancellationToken cancellationToken = default
+        )
+    {
+        var result = await unitOfWork.Items.GetByGroupIdAsync(groupId, @params, filter, search, cancellationToken: cancellationToken);
+
+        return result;
+    }
+
     public async Task<Item> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var entity = await unitOfWork.Items.GetByIdAsync(id, cancellationToken: cancellationToken)

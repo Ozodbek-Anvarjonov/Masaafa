@@ -4,6 +4,8 @@ namespace Masaafa.WebApi.Models.Warehouses;
 
 public class WarehouseItemResponse
 {
+    public Guid Id { get; set; }
+
     public Guid WarehouseId { get; set; }
     public WarehouseResponse Warehouse { get; set; } = default!;
 

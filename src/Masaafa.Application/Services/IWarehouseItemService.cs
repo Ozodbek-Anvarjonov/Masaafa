@@ -12,6 +12,24 @@ public interface IWarehouseItemService
         CancellationToken cancellationToken = default
         );
 
+    Task<PaginationResult<WarehouseItem>> GetByItemIdAsync(
+        Guid itemId,
+        PaginationParams @params,
+        Filter filter,
+        string? search = null,
+        CancellationToken cancellationToken = default
+        );
+
+    Task<PaginationResult<WarehouseItem>> GetByWarehouseIdAsync(
+        Guid warehouseId,
+        PaginationParams @params,
+        Filter filter,
+        string? search = null,
+        CancellationToken cancellationToken = default
+        );
+
+    Task<WarehouseItem> GetByWarehouseIdAndItemIdAsync(Guid warehouseId, Guid itemId, CancellationToken cancellationToken = default);
+
     Task<WarehouseItem> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
     Task<WarehouseItem> CreateAsync(WarehouseItem item, CancellationToken cancellationToken = default);

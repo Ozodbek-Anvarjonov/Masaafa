@@ -20,6 +20,40 @@ public class WarehouseItemService(IUnitOfWork unitOfWork) : IWarehouseItemServic
         return result;
     }
 
+    public async Task<PaginationResult<WarehouseItem>> GetByItemIdAsync(
+        Guid itemId,
+        PaginationParams @params,
+        Filter filter,
+        string? search = null,
+        CancellationToken cancellationToken = default
+        )
+    {
+        var result = await unitOfWork.WarehouseItems.GetByItemIdAsync(itemId, @params, filter, search, cancellationToken: cancellationToken);
+
+        return result;
+    }
+
+    public async Task<PaginationResult<WarehouseItem>> GetByWarehouseIdAsync(
+        Guid warehouseId,
+        PaginationParams @params,
+        Filter filter,
+        string? search = null,
+        CancellationToken cancellationToken = default
+        )
+    {
+        var result = await unitOfWork.WarehouseItems.GetByWarehouseIdAsync(warehouseId, @params, filter, search, cancellationToken: cancellationToken);
+
+        return result;
+    }
+
+    public async Task<WarehouseItem> GetByWarehouseIdAndItemIdAsync(Guid warehouseId, Guid itemId, CancellationToken cancellationToken = default)
+    {
+        var entity = await unitOfWork.WarehouseItems.GetByWarehouseIdAndItemIdAsync(warehouseId, itemId, cancellationToken: cancellationToken)
+            ?? throw new NotFoundException(nameof(WarehouseItem), nameof(WarehouseItem.Id), warehouseId.ToString());
+
+        return entity;
+    }
+
     public async Task<WarehouseItem> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var entity = await unitOfWork.WarehouseItems.GetByIdAsync(id, cancellationToken: cancellationToken)

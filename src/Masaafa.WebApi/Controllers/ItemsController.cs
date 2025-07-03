@@ -6,6 +6,7 @@ using Masaafa.Domain.Common.Pagination;
 using Masaafa.Domain.Entities;
 using Masaafa.WebApi.Extensions;
 using Masaafa.WebApi.Models.Items;
+using Masaafa.WebApi.Models.Warehouses;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Masaafa.WebApi.Controllers;
@@ -15,6 +16,7 @@ public class ItemsController(
     IValidator<CreateItemRequest> createValidator,
     IValidator<UpdateItemRequest> updateValidator,
     IItemService itemService,
+    IWarehouseItemService warehouseItemService,
     IHeaderService headerService
     ) : BaseController
 {
@@ -29,6 +31,20 @@ public class ItemsController(
         headerService.WritePagination(result.PaginationMetaData);
 
         return Ok(mapper.Map<IEnumerable<ItemResponse>>(result.Data));
+    }
+
+    [HttpGet("{itemId:guid}/warehouse-items")]
+    public async ValueTask<IActionResult> GetWarehouseById(
+        [FromRoute] Guid itemId,
+        [FromQuery] PaginationParams @params,
+        [FromQuery] Filter filter,
+        [FromQuery] string? search = null)
+    {
+        var result = await warehouseItemService.GetByItemIdAsync(itemId, @params, filter, search, CancellationToken);
+
+        headerService.WritePagination(result.PaginationMetaData);
+
+        return Ok(mapper.Map<IEnumerable<WarehouseItemResponse>>(result.Data));
     }
 
     [HttpGet("{id:guid}")]

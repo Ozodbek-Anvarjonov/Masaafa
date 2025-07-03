@@ -14,6 +14,24 @@ public interface IWarehouseItemRepository
         bool asNoTracking = true,
         CancellationToken cancellationToken = default);
 
+    Task<PaginationResult<WarehouseItem>> GetByItemIdAsync(
+        Guid itemId,
+        PaginationParams @params,
+        Filter filter,
+        string? search = null,
+        bool asNoTracking = true,
+        CancellationToken cancellationToken = default);
+
+    Task<PaginationResult<WarehouseItem>> GetByWarehouseIdAsync(
+        Guid warehouseId,
+        PaginationParams @params,
+        Filter filter,
+        string? search = null,
+        bool asNoTracking = true,
+        CancellationToken cancellationToken = default);
+
+    Task<WarehouseItem?> GetByWarehouseIdAndItemIdAsync(Guid warehouseId, Guid itemId, bool asNoTracking = true, CancellationToken cancellationToken = default);
+
     Task<WarehouseItem?> GetByIdAsync(Guid id, bool asNoTracking = true, CancellationToken cancellationToken = default);
 
     Task<WarehouseItem> CreateAsync(WarehouseItem item, bool saveChanges = false, CancellationToken cancellationToken = default);
