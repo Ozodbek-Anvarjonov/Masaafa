@@ -12,7 +12,7 @@ public class Item : SoftDeletedEntity
 
     public string Description { get; set; } = default!;
     public string UnitOfMeasure { get; set; } = default!;
-    public decimal Price { get; set; } = default!;
+    public decimal UnitPrice { get; set; } = default!;
 
     public string? ImageUrl { get; set; }
     public bool IsActive { get; set; } = true;

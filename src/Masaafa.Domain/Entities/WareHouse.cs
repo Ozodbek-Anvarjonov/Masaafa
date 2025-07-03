@@ -10,5 +10,5 @@ public class Warehouse
 
     public bool IsActive { get; set; } = true;
 
-    public IEnumerable<Warehouse> Items { get; set; }
+    public IEnumerable<WarehouseItem> Items { get; set; }
 }
