@@ -9,4 +9,6 @@ public class ApiErrorResponse
     public string Title { get; set; } = default!;
 
     public string Detail { get; set; } = default!;
+
+    public IDictionary<string, string[]>? Errors { get; set; }
 }

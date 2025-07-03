@@ -13,7 +13,6 @@ public class AlreadyExistException : AppException
     public override string Type => ErrorType;
     public override HttpStatusCode StatusCode => HttpStatusCode.Conflict;
     public override string Title => ErrorTitle;
-    public override string Detail => Message;
 
     public AlreadyExistException() : base(ErrorMessage) { }
 

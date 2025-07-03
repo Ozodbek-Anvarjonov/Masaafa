@@ -7,16 +7,19 @@ public class ValidationException : AppException
     private const string ErrorType = "validation_failed";
     private const string ErrorTitle = "Validation Error";
     private const string ErrorMessage = "One or more validation failures occurred.";
+    private readonly IDictionary<string, string[]> _errors;
 
     public override string Type => ErrorType;
     public override HttpStatusCode StatusCode => HttpStatusCode.BadRequest;
     public override string Title => ErrorTitle;
-    public override string Detail => Message;
+    public override IDictionary<string, string[]> Errors => _errors;
 
-    public ValidationException(string message) : base(GetSafeMessage(message)) { }
+    public ValidationException() : base(ErrorMessage) =>
+        _errors = new Dictionary<string, string[]>();
 
-    public ValidationException(string message, Exception? inner) : base(GetSafeMessage(message), inner) { }
+    public ValidationException(Exception? inner) : base(ErrorMessage, inner) =>
+        _errors = new Dictionary<string, string[]>();
 
-    private static string GetSafeMessage(string? message) =>
-        string.IsNullOrWhiteSpace(message) ? ErrorMessage : message;
+    public ValidationException(IDictionary<string, string[]> errors) : base(ErrorMessage) =>
+        _errors = errors ?? new Dictionary<string, string[]>();
 }

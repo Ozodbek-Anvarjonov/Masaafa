@@ -8,10 +8,10 @@ public class AppExceptionHandler : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
-        if (exception is not AppException)
+        if (exception is not IAppException)
             return false;
 
-        var currentException = exception as AppException;
+        var currentException = exception as IAppException;
 
         httpContext.Response.StatusCode = (int)currentException!.StatusCode;
         httpContext.Response.ContentType = "application/json";
@@ -21,7 +21,8 @@ public class AppExceptionHandler : IExceptionHandler
             Type = currentException.Type,
             Status = (int)currentException.StatusCode,
             Title = currentException.Title,
-            Detail = currentException.Detail
+            Detail = currentException.Detail,
+            Errors = currentException.Errors
         };
 
         await httpContext.Response.WriteAsJsonAsync(response, cancellationToken);

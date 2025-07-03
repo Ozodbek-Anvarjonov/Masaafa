@@ -13,7 +13,6 @@ public class NotFoundException : AppException
     public override string Type => ErrorType;
     public override HttpStatusCode StatusCode => HttpStatusCode.NotFound;
     public override string Title => ErrorTitle;
-    public override string Detail => Message;
 
     public NotFoundException() : base(ErrorMessage) { }
 

@@ -1,4 +1,5 @@
-﻿using Masaafa.Application.Common.Abstractions;
+﻿using FluentValidation;
+using Masaafa.Application.Common.Abstractions;
 using Masaafa.Application.Settings;
 using Masaafa.Persistence.UnitOfWork.Interfaces;
 using Masaafa.WebApi.ExceptionHandlers;
@@ -21,7 +22,6 @@ public static partial class HostConfigurations
         services.AddEndpointsApiExplorer();
         services.AddAuthorization();
         services.AddHttpContextAccessor();
-        //services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.Configure<JsonOptions>(options =>
         {
             options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
@@ -30,6 +30,7 @@ public static partial class HostConfigurations
         services.AddSwagger();
         services.AddExceptionHandler();
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddSecurity(configuration);
         services.AddServices(configuration);
         services.AddMiddlewares(configuration);

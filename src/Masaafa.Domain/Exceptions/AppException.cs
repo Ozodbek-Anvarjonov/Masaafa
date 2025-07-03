@@ -2,7 +2,7 @@
 
 namespace Masaafa.Domain.Exceptions;
 
-public abstract class AppException : Exception
+public abstract class AppException : Exception, IAppException
 {
     protected AppException(string message) : base(message) { }
 
@@ -14,6 +14,8 @@ public abstract class AppException : Exception
     public abstract HttpStatusCode StatusCode { get; }
     
     public abstract string Title { get; }
-    
-    public abstract string Detail { get; }
+
+    public virtual string Detail => Message;
+
+    public virtual IDictionary<string, string[]>? Errors => null;
 }

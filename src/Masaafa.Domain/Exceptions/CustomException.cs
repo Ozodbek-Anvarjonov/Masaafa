@@ -13,7 +13,6 @@ public class CustomException : AppException
     public override string Type { get; }
     public override HttpStatusCode StatusCode { get; }
     public override string Title { get; }
-    public override string Detail => Message;
 
     public CustomException()
         : this(DefaultErrorMessage, DefaultStatusCode) { }
