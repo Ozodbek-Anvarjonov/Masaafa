@@ -30,6 +30,4 @@ public class TransferRequest : SoftDeletedEntity
     public Guid? RejectedByUserId { get; set; }
     public Employee? RejectedByUser { get; set; }
     public string? RejectionReason { get; set; }
-
-    public IEnumerable<TransferRequestItem> Items { get; set; }
 }

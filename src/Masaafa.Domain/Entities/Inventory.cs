@@ -25,6 +25,4 @@ public class Inventory : SoftDeletedEntity
     public DateTime? CompletedDate { get; set; }
     public Guid? CompletedByUserId { get; set; }
     public Employee? CompletedByUser { get; set; }
-
-    public IEnumerable<InventoryItem> Items { get; set; }
 }

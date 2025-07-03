@@ -10,7 +10,7 @@ public class WarehouseItemConfiguration : IEntityTypeConfiguration<WarehouseItem
     {
         builder
             .HasOne(item => item.Warehouse)
-            .WithMany(group => group.Items)
+            .WithMany()
             .HasForeignKey(item => item.WarehouseId)
             .OnDelete(DeleteBehavior.Cascade);
 

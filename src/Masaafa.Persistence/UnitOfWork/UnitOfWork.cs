@@ -13,20 +13,39 @@ public class UnitOfWork<TContext> : IUnitOfWork where TContext : DbContext
 
     public bool HasActiveTransaction => _currentTransaction != null;
 
-    public UnitOfWork(TContext context, IClientRepository userRepository, IEmployeeRepository employeeRepository)
+    public UnitOfWork(
+        TContext context,
+        IClientRepository userRepository,
+        IEmployeeRepository employeeRepository,
+        IItemRepository itemRepository,
+        IItemGroupRepository itemGroupRepository,
+        IWarehouseItemRepository warehouseItemRepository,
+        IWarehouseRepository warehouseRepository)
     {
         _dbContext = context ?? throw new ArgumentNullException(nameof(context));
 
         // Repositories
         Clients = userRepository;
         Employees = employeeRepository;
+
+        Items = itemRepository;
+        ItemGroups = itemGroupRepository;
+
+        WarehouseItems = warehouseItemRepository;
+        Warehouses = warehouseRepository;
     }
 
     #region Repositories
+    // First-tier
     public IClientRepository Clients { get; }
-
     public IEmployeeRepository Employees { get; }
 
+    // Second-tier
+    public IItemRepository Items { get; }
+    public IItemGroupRepository ItemGroups { get; }
+
+    public IWarehouseItemRepository WarehouseItems { get; }
+    public IWarehouseRepository Warehouses { get; }
     #endregion
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default) =>

@@ -3,9 +3,11 @@ using Masaafa.Application.Common.Abstractions;
 using Masaafa.Application.Settings;
 using Masaafa.Persistence.UnitOfWork.Interfaces;
 using Masaafa.WebApi.ExceptionHandlers;
+using Masaafa.WebApi.Routing;
 using Masaafa.WebApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Json;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
@@ -18,7 +20,9 @@ public static partial class HostConfigurations
 {
     public static void AddPresentation(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddControllers();
+        services.AddControllers(options =>
+            options.Conventions.Add(new RouteTokenTransformerConvention(new RouteTransformer()))
+            );
         services.AddEndpointsApiExplorer();
         services.AddAuthorization();
         services.AddHttpContextAccessor();

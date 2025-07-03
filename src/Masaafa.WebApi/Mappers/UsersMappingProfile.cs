@@ -4,9 +4,9 @@ using Masaafa.WebApi.Models.Users;
 
 namespace Masaafa.WebApi.Mappers;
 
-public class UserMappingProfile : Profile
+public class UsersMappingProfile : Profile
 {
-    public UserMappingProfile()
+    public UsersMappingProfile()
     {
         CreateMap<CreateClientRequest, Client>();
         CreateMap<UpdateClientRequest, Client>();

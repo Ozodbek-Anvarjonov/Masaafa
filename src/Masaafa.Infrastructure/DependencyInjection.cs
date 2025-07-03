@@ -18,14 +18,14 @@ public static class DependencyInjection
 
     private static void AddServices(this IServiceCollection services, IConfiguration configuration)
     {
-        // Identity services
-        //services.AddScoped<IUserContext, UserContext>();
-
-
         // Services
         services
             .AddScoped<IClientService, ClientService>()
             .AddScoped<IEmployeeService, EmployeeService>()
+            .AddScoped<IItemService, ItemService>()
+            .AddScoped<IItemGroupService, ItemGroupService>()
+            .AddScoped<IWarehouseItemService, WarehouseItemService>()
+            .AddScoped<IWarehouseService, WarehouseService>()
             .AddScoped<IAccountService, AccountService>()
             .AddScoped<ITokenGeneratorService, JwtTokenGeneratorService>();
     }

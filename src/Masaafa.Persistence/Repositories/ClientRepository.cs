@@ -24,6 +24,9 @@ public class ClientRepository(AppDbContext context) : EntityRepositoryBase<Clien
 
         exists = exists.OrderBy(filter);
 
+        if (asNoTracking)
+            exists = exists.AsNoTracking();
+
         return await exists.ToPaginateAsync(@params);
     }
 

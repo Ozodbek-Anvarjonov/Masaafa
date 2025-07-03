@@ -10,7 +10,8 @@ public interface IEmployeeRepository
        Filter filter,
        string? search = null,
        bool asNoTracking = true,
-       CancellationToken cancellationToken = default);
+       CancellationToken cancellationToken = default
+        );
 
     Task<Employee?> GetByIdAsync(Guid id, bool asNoTracking = true, CancellationToken cancellationToken = default);
 

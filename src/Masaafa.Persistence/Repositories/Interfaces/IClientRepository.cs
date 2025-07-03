@@ -12,7 +12,8 @@ public interface IClientRepository
         Filter filter,
         string? search = null,
         bool asNoTracking = true,
-        CancellationToken cancellationToken = default);
+        CancellationToken cancellationToken = default
+        );
 
     Task<Client?> GetByIdAsync(Guid id, bool asNoTracking = true, CancellationToken cancellationToken = default);
 

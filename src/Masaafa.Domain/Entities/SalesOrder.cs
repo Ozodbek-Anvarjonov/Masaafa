@@ -37,6 +37,4 @@ public class SalesOrder : SoftDeletedEntity
     public Guid? CancelledByUserId { get; set; }
     public Employee? CancelledByUser { get; set; }
     public string? CancellationReason { get; set; }
-
-    public IEnumerable<SalesOrderItem> Items { get; set; }
 }

@@ -10,7 +10,7 @@ public class ItemConfiguration : IEntityTypeConfiguration<Item>
     {
         builder
             .HasOne(item => item.ItemGroup)
-            .WithMany(group => group.Items)
+            .WithMany()
             .HasForeignKey(item => item.ItemGroupId)
             .OnDelete(DeleteBehavior.Cascade);
     }

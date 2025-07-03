@@ -10,7 +10,7 @@ public class SalesOrderItemConfiguration : IEntityTypeConfiguration<SalesOrderIt
     {
         builder
             .HasOne(item => item.SalesOrder)
-            .WithMany(salesOrder => salesOrder.Items)
+            .WithMany()
             .HasForeignKey(item => item.SalesOrderId)
             .OnDelete(DeleteBehavior.Cascade);
 

@@ -10,7 +10,7 @@ public class TransferRequestItemConfiguration : IEntityTypeConfiguration<Transfe
     {
         builder
             .HasOne(item => item.TransferRequest)
-            .WithMany(transfer => transfer.Items)
+            .WithMany()
             .HasForeignKey(item => item.TransferRequestId)
             .OnDelete(DeleteBehavior.Cascade);
 

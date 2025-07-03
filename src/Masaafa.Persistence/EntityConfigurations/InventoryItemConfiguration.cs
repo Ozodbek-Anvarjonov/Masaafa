@@ -10,7 +10,7 @@ public class InventoryItemConfiguration : IEntityTypeConfiguration<InventoryItem
     {
         builder
             .HasOne(item => item.Inventory)
-            .WithMany(inventory => inventory.Items)
+            .WithMany()
             .HasForeignKey(item => item.InventoryId)
             .OnDelete(DeleteBehavior.Cascade);
 

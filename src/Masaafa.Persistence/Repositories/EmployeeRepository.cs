@@ -13,7 +13,7 @@ public class EmployeeRepository(AppDbContext context) : EntityRepositoryBase<Emp
         PaginationParams @params,
         Filter filter,
         string? search = null,
-    bool asNoTracking = true,
+        bool asNoTracking = true,
         CancellationToken cancellationToken = default)
     {
         var exists = Set.Where(entity => !entity.IsDeleted);
@@ -23,6 +23,9 @@ public class EmployeeRepository(AppDbContext context) : EntityRepositoryBase<Emp
                 .Where(entity => true);
 
         exists = exists.OrderBy(filter);
+
+        if (asNoTracking)
+            exists = exists.AsNoTracking();
 
         return await exists.ToPaginateAsync(@params);
     }

@@ -1,14 +1,21 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Masaafa.Application.Common.Abstractions;
 using Masaafa.Application.Services;
 using Masaafa.Domain.Common.Pagination;
 using Masaafa.Domain.Entities;
+using Masaafa.WebApi.Extensions;
 using Masaafa.WebApi.Models.Users;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Masaafa.WebApi.Controllers;
 
-public class EmployeesController(IEmployeeService employeeService, IHeaderService headerService, IMapper mapper) : BaseController
+public class EmployeesController(
+    IEmployeeService employeeService,
+    IHeaderService headerService,
+    IMapper mapper,
+    IValidator<CreateEmployeeRequest> createValidator,
+    IValidator<UpdateEmployeeRequest> updateValidator) : BaseController
 {
     [HttpGet]
     public async ValueTask<IActionResult> Get(
@@ -34,13 +41,18 @@ public class EmployeesController(IEmployeeService employeeService, IHeaderServic
     [HttpPost]
     public async ValueTask<IActionResult> Post([FromBody] CreateEmployeeRequest request)
     {
+        await createValidator.EnsureValidationAsync(request);
+
         var entity = await employeeService.CreateAsync(mapper.Map<Employee>(request), CancellationToken);
+        
         return Ok(mapper.Map<EmployeeResponse>(entity));
     }
 
     [HttpPut("{id:guid}")]
     public async ValueTask<IActionResult> Put([FromRoute] Guid id, [FromBody] UpdateEmployeeRequest request)
     {
+        await updateValidator.EnsureValidationAsync(request);
+
         var entity = await employeeService.UpdateAsync(id, mapper.Map<Employee>(request), CancellationToken);
 
         return Ok(mapper.Map<EmployeeResponse>(entity));
