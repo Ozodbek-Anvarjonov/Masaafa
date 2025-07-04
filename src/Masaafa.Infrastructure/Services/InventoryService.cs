@@ -58,8 +58,20 @@ public class InventoryService(IUnitOfWork unitOfWork, IUserContext userContext) 
 
         exist.InventoryNumber = inventory.InventoryNumber;
         exist.Note = inventory.Note;
-        exist.StartedDate = inventory.StartedDate;
-        exist.CompletedDate = inventory.CompletedDate;
+
+        if (inventory.StartedDate is not null)
+        {
+            exist.StartedByUserId = userContext.GetRequiredUserId();
+            exist.StartedDate = inventory.StartedDate; 
+            exist.Status = InventoryStatus.InProgress;
+        }
+
+        if (inventory.CompletedDate is not null)
+        {
+            exist.StartedByUserId = userContext.GetRequiredUserId();
+            exist.StartedDate = inventory.CompletedDate;
+            exist.Status = InventoryStatus.Completed;
+        }
 
         _ = await unitOfWork.SaveChangesAsync(cancellationToken);
 

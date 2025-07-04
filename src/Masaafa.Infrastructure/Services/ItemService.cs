@@ -55,6 +55,13 @@ public class ItemService(IUnitOfWork unitOfWork) : IItemService
 
         exist.ItemCode = item.ItemCode;
         exist.ItemName = item.ItemName;
+        exist.Description = item.Description;
+        exist.UnitOfMeasure = item.UnitOfMeasure;
+        exist.UnitPrice = item.UnitPrice;
+        exist.IsActive = item.IsActive;
+        exist.Barcode = item.Barcode;
+        exist.Manufacturer = item.Manufacturer;
+        exist.Specifications = item.Specifications;
 
         _ = await unitOfWork.SaveChangesAsync(cancellationToken);
 

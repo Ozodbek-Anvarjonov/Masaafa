@@ -51,6 +51,11 @@ public static class DependencyInjection
             .AddScoped<IWarehouseItemRepository, WarehouseItemRepository>()
             .AddScoped<IWarehouseRepository, WarehouseRepository>()
             .AddScoped<IInventoryItemRepository, InventoryItemRepository>()
-            .AddScoped<IInventoryRepository, InventoryRepository>();
+            .AddScoped<IInventoryRepository, InventoryRepository>()
+            .AddScoped<ITransferRequestItemRepository, TransferRequestItemRepository>()
+            .AddScoped<ITransferRequestRepository, TransferRequestRepository>()
+            .AddScoped<ISalesOrderItemRepository, SalesOrderItemRepository>()
+            .AddScoped<ISalesOrderRepository, SalesOrderRepository>()
+            .AddScoped<IPaymentRepository, PaymentRepository>();
     }
 }

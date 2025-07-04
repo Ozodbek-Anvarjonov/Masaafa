@@ -49,6 +49,7 @@ public class EmployeeService(IUnitOfWork unitOfWork) : IEmployeeService
         entity.FirstName = employee.FirstName;
         entity.LastName = employee.LastName;
         entity.PhoneNumber = employee.PhoneNumber;
+        entity.SalesPersonCode = employee.SalesPersonCode;
 
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
