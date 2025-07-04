@@ -4,6 +4,5 @@ namespace Masaafa.Domain.Common.Entities;
 
 public class Entity : IEntity
 {
-    [Key]
-    public Guid Id { get; protected set; }
+    public Guid Id { get; set; }
 }

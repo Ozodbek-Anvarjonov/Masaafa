@@ -19,18 +19,22 @@ public static class PaginationExtension
         return new PaginationResult<T>(source.ToList(), new PaginationMetaData(totalCount, @params));
     }
 
-    public static async Task<PaginationResult<T>> ToPaginateAsync<T>(this IQueryable<T> source, PaginationParams? @params = default)
+    public static async Task<PaginationResult<T>> ToPaginateAsync<T>(
+        this IQueryable<T> source,
+        PaginationParams? @params = default,
+        CancellationToken cancellationToken = default
+        )
     {
         if (@params == null || @params.PageNumber <= 0 || @params.PageSize <= 0)
             @params = new PaginationParams();
 
-        int totalCount = await source.CountAsync();
+        int totalCount = await source.CountAsync(cancellationToken);
 
         source = source
             .Skip((@params.PageNumber - 1) * @params.PageSize)
             .Take(@params.PageSize);
 
-        var paginationResult = await source.ToListAsync();
+        var paginationResult = await source.ToListAsync(cancellationToken);
         var pagedResult = new PaginationResult<T>(paginationResult, new PaginationMetaData(totalCount, @params));
 
         return pagedResult;

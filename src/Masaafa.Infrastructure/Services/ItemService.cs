@@ -65,7 +65,9 @@ public class ItemService(IUnitOfWork unitOfWork) : IItemService
     {
         var entity = await GetByIdAsync(id);
 
-        _ = await unitOfWork.Items.DeleteAsync(entity, true, cancellationToken: cancellationToken);
+        await unitOfWork.BeginTransactionAsync(cancellationToken);
+        await unitOfWork.Items.DeleteAsync(entity, true, cancellationToken: cancellationToken);
+        await unitOfWork.CommitTransactionAsync(cancellationToken);
 
         return true;
     }

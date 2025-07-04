@@ -3,6 +3,7 @@ using Masaafa.Application.Common.Abstractions;
 using Masaafa.Application.Settings;
 using Masaafa.Persistence.UnitOfWork.Interfaces;
 using Masaafa.WebApi.ExceptionHandlers;
+using Masaafa.WebApi.Mappers;
 using Masaafa.WebApi.Routing;
 using Masaafa.WebApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -33,6 +34,7 @@ public static partial class HostConfigurations
 
         services.AddSwagger();
         services.AddExceptionHandler();
+        services.AddAutoMapper(typeof(InventoriesMapperProfile));
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddSecurity(configuration);

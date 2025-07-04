@@ -27,6 +27,8 @@ public static class DependencyInjection
             .AddScoped<IWarehouseItemService, WarehouseItemService>()
             .AddScoped<IWarehouseService, WarehouseService>()
             .AddScoped<IAccountService, AccountService>()
-            .AddScoped<ITokenGeneratorService, JwtTokenGeneratorService>();
+            .AddScoped<ITokenGeneratorService, JwtTokenGeneratorService>()
+            .AddScoped<IInventoryService, InventoryService>()
+            .AddScoped<IInventoryItemService, InventoryItemService>();
     }
 }

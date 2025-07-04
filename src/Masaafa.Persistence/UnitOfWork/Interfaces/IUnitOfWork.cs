@@ -8,6 +8,9 @@ public interface IUnitOfWork : ITransactionManager, IDisposable, IAsyncDisposabl
     IClientRepository Clients { get; }
     IEmployeeRepository Employees { get; }
 
+    IInventoryRepository Inventories { get; }
+    IInventoryItemRepository InventoryItems { get; }
+
     // Second-tier
     IItemRepository Items { get; }
     IItemGroupRepository ItemGroups { get; }

@@ -20,7 +20,10 @@ public class UnitOfWork<TContext> : IUnitOfWork where TContext : DbContext
         IItemRepository itemRepository,
         IItemGroupRepository itemGroupRepository,
         IWarehouseItemRepository warehouseItemRepository,
-        IWarehouseRepository warehouseRepository)
+        IWarehouseRepository warehouseRepository,
+        IInventoryRepository inventories,
+        IInventoryItemRepository inventoryItems
+        )
     {
         _dbContext = context ?? throw new ArgumentNullException(nameof(context));
 
@@ -33,12 +36,18 @@ public class UnitOfWork<TContext> : IUnitOfWork where TContext : DbContext
 
         WarehouseItems = warehouseItemRepository;
         Warehouses = warehouseRepository;
+
+        Inventories = inventories;
+        InventoryItems = inventoryItems;
     }
 
     #region Repositories
     // First-tier
     public IClientRepository Clients { get; }
     public IEmployeeRepository Employees { get; }
+
+    public IInventoryRepository Inventories { get; }
+    public IInventoryItemRepository InventoryItems { get; }
 
     // Second-tier
     public IItemRepository Items { get; }

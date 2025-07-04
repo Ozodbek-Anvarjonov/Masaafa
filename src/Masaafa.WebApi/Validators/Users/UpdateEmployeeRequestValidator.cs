@@ -3,7 +3,7 @@ using Masaafa.WebApi.Models.Users;
 
 namespace Masaafa.WebApi.Validators.Users;
 
-public class UpdateEmployeeRequestValidator : AbstractValidator<CreateEmployeeRequest>
+public class UpdateEmployeeRequestValidator : AbstractValidator<UpdateEmployeeRequest>
 {
     public UpdateEmployeeRequestValidator()
     {

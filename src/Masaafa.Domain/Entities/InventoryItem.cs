@@ -15,8 +15,9 @@ public class InventoryItem : SoftDeletedEntity
     public decimal SystemQuantity { get; set; }
     public decimal ActualQuantity { get; set; }
     public decimal Difference => ActualQuantity - SystemQuantity;
+    public string? Description { get; set; }
 
-    public DateTimeOffset? CountedDate { get; set; }
-    public Guid? CountedByUserId { get; set; }
-    public Employee? CountedByUser { get; set; }
+    public DateTimeOffset CountedDate { get; set; }
+    public Guid CountedByUserId { get; set; }
+    public Employee CountedByUser { get; set; } = default!;
 }
