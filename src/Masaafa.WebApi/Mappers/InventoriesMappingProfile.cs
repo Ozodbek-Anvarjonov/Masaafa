@@ -6,9 +6,9 @@ using Masaafa.WebApi.Models.Warehouses;
 
 namespace Masaafa.WebApi.Mappers;
 
-public class InventoriesMapperProfile : Profile
+public class InventoriesMappingProfile : Profile
 {
-    public InventoriesMapperProfile()
+    public InventoriesMappingProfile()
     {
         CreateMap<CreateInventoryRequest, Inventory>();
         CreateMap<UpdateInventoryRequest, Inventory>();

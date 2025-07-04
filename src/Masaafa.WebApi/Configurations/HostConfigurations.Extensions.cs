@@ -34,7 +34,7 @@ public static partial class HostConfigurations
 
         services.AddSwagger();
         services.AddExceptionHandler();
-        services.AddAutoMapper(typeof(InventoriesMapperProfile));
+        services.AddAutoMapper(typeof(InventoriesMappingProfile));
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
         services.AddSecurity(configuration);
