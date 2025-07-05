@@ -30,6 +30,7 @@ public class SalesOrderService(IUnitOfWork unitOfWork, IUserContext userContext)
 
     public async Task<SalesOrder> CreateAsync(SalesOrder order, CancellationToken cancellationToken = default)
     {
+        order.CreatedByUserId = userContext.GetRequiredUserId();
         var entity = await unitOfWork.SalesOrders.CreateAsync(order, saveChanges: true, cancellationToken: cancellationToken);
 
         return entity;

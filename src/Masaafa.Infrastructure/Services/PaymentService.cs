@@ -30,6 +30,8 @@ public class PaymentService(IUnitOfWork unitOfWork, IUserContext userContext) : 
 
     public async Task<Payment> CreateAsync(Payment payment, CancellationToken cancellationToken = default)
     {
+        payment.CreatedByUserId = userContext.GetRequiredUserId();
+        payment.CreatedDate = DateTimeOffset.UtcNow;
         var entity = await unitOfWork.Payments.CreateAsync(payment, saveChanges: true, cancellationToken: cancellationToken);
 
         return entity;

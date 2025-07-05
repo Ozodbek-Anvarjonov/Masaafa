@@ -20,7 +20,7 @@ public class TransferRequestItem : SoftDeletedEntity
     public decimal LineTotal => Quantity * UnitPrice;
 
     public DateTime? SentDate { get; set; }
-    public Guid SendByUserId { get; set; }
+    public Guid? SendByUserId { get; set; }
     public Employee? SendByUser { get; set; }
 
     public DateTime? ReceivedDate { get; set; }

@@ -48,7 +48,7 @@ public class TransfersController(
 
         var entity = await transferRequestService.CreateAsync(mapper.Map<TransferRequest>(request), CancellationToken);
 
-        return Ok(mapper.Map<InventoryItemResponse>(entity));
+        return Ok(mapper.Map<TransferResponse>(entity));
     }
 
     [HttpPut("{id:guid}")]
@@ -58,7 +58,7 @@ public class TransfersController(
 
         var entity = await transferRequestService.UpdateAsync(id, mapper.Map<TransferRequest>(request), CancellationToken);
 
-        return Ok(mapper.Map<InventoryItemResponse>(entity));
+        return Ok(mapper.Map<TransferResponse>(entity));
     }
 
     [HttpDelete("{id:guid}")]

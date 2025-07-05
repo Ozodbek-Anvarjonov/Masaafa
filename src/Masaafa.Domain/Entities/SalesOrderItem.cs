@@ -18,7 +18,7 @@ public class SalesOrderItem : SoftDeletedEntity
     public decimal LineTotal => UnitPrice * Quantity * (1 - DiscountPercent / 100);
 
     public DateTime? SentDate { get; set; }
-    public Guid SendByUserId { get; set; }
+    public Guid? SendByUserId { get; set; }
     public Employee? SendByUser { get; set; }
 
     public DateTime? ReceivedDate { get; set; }

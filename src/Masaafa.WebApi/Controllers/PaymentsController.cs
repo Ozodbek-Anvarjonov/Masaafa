@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Masaafa.WebApi.Controllers;
 
-public class PaymentController(
+public class PaymentsController(
     IMapper mapper,
     IHeaderService headerService,
     IPaymentService paymentService,

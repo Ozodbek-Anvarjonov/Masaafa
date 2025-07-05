@@ -32,7 +32,7 @@ public class TransferRequestItemService(IUnitOfWork unitOfWork, IUserContext use
 
     public async Task<TransferRequestItem> CreateAsync(TransferRequestItem item, CancellationToken cancellationToken = default)
     {
-        await EnsureWarehouseItemExists(item.TransferRequestId, item.FromWarehouseItemId);
+        await EnsureWarehouseItemExists(item.FromWarehouseItemId, item.ToWarehouseItemId);
 
         if (item.SentDate is not null)
             item.SendByUserId = userContext.GetRequiredUserId();
