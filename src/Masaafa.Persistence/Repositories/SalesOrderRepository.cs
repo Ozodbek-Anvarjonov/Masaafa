@@ -3,11 +3,12 @@ using Masaafa.Domain.Entities;
 using Masaafa.Persistence.DataContext;
 using Masaafa.Persistence.Extensions;
 using Masaafa.Persistence.Repositories.Interfaces;
+using Masaafa.Persistence.UnitOfWork.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Masaafa.Persistence.Repositories;
 
-public class SalesOrderRepository(AppDbContext context)
+public class SalesOrderRepository(AppDbContext context, IUserContext userContext)
     : EntityRepositoryBase<SalesOrder, AppDbContext>(context), ISalesOrderRepository
 {
     public async Task<PaginationResult<SalesOrder>> GetAsync(
@@ -63,8 +64,13 @@ public class SalesOrderRepository(AppDbContext context)
     public new Task<SalesOrder> UpdateAsync(SalesOrder order, bool saveChanges, CancellationToken cancellationToken = default) =>
         base.UpdateAsync(order, saveChanges, cancellationToken);
 
-    public new Task<SalesOrder> DeleteAsync(SalesOrder order, bool saveChanges, CancellationToken cancellationToken = default)
+    public new async Task<SalesOrder> DeleteAsync(SalesOrder order, bool saveChanges, CancellationToken cancellationToken = default)
     {
-        return base.DeleteAsync(order, saveChanges, cancellationToken);
+        await Context
+            .Set<SalesOrderItem>()
+            .Where(entity => entity.SalesOrderId == order.Id && !entity.IsDeleted)
+            .SoftDeleteAsync(userContext.GetRequiredUserId(), cancellationToken);
+
+        return await base.DeleteAsync(order, saveChanges, cancellationToken);
     }
 }
