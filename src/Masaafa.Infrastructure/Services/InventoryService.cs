@@ -59,14 +59,14 @@ public class InventoryService(IUnitOfWork unitOfWork, IUserContext userContext) 
         exist.InventoryNumber = inventory.InventoryNumber;
         exist.Note = inventory.Note;
 
-        if (inventory.StartedDate is not null)
+        if (exist.StartedDate is null && inventory.StartedDate is not null || exist.StartedDate != inventory.StartedDate)
         {
             exist.StartedByUserId = userContext.GetRequiredUserId();
             exist.StartedDate = inventory.StartedDate; 
             exist.Status = InventoryStatus.InProgress;
         }
 
-        if (inventory.CompletedDate is not null)
+        if (exist.CompletedDate is null && inventory.CompletedDate is not null || exist.CompletedDate != inventory.CompletedDate)
         {
             exist.StartedByUserId = userContext.GetRequiredUserId();
             exist.StartedDate = inventory.CompletedDate;
@@ -83,7 +83,7 @@ public class InventoryService(IUnitOfWork unitOfWork, IUserContext userContext) 
         var exist = await GetByIdAsync(id, cancellationToken: cancellationToken);
 
         await unitOfWork.BeginTransactionAsync(cancellationToken);
-        await unitOfWork.Inventories.DeleteAsync(exist);
+        await unitOfWork.Inventories.DeleteAsync(exist, cancellationToken: cancellationToken);
         await unitOfWork.CommitTransactionAsync(cancellationToken);
 
         return true;

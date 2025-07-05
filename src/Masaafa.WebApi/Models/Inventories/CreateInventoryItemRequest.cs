@@ -6,7 +6,7 @@ public class CreateInventoryItemRequest
 
     public Guid InventoryId { get; set; }
 
-    public Guid ItemId { get; set; }
+    public Guid WarehouseItemId { get; set; }
 
     public decimal ActualQuantity { get; set; }
 

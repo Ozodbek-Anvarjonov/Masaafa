@@ -4,7 +4,7 @@ public class UpdateInventoryItemRequest
 {
     public Guid Id { get; set; }
 
-    public Guid ItemId { get; set; }
+    public Guid WarehouseItemId { get; set; }
 
     public decimal ActualQuantity { get; set; }
 
