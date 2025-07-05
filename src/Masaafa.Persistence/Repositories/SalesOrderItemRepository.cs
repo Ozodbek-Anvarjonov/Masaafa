@@ -29,8 +29,7 @@ public class SalesOrderItemRepository(AppDbContext context)
         exists = exists
             .OrderBy(filter)
             .Include(entity => entity.SalesOrder)
-            .Include(entity => entity.Item)
-            .Include(entity => entity.Warehouse);
+            .Include(entity => entity.WarehouseItem);
 
         return await exists.ToPaginateAsync(@params, cancellationToken);
     }
@@ -44,8 +43,7 @@ public class SalesOrderItemRepository(AppDbContext context)
 
         exist = exist
             .Include(entity => entity.SalesOrder)
-            .Include(entity => entity.Item)
-            .Include(entity => entity.Warehouse);
+            .Include(entity => entity.WarehouseItem);
 
         return await exist.FirstOrDefaultAsync(cancellationToken);
     }

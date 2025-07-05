@@ -15,15 +15,15 @@ public class SalesOrderItemConfiguration : IEntityTypeConfiguration<SalesOrderIt
             .OnDelete(DeleteBehavior.Cascade);
 
         builder
-            .HasOne(item => item.Item)
+            .HasOne(item => item.WarehouseItem)
             .WithMany()
-            .HasForeignKey(item => item.ItemId)
+            .HasForeignKey(item => item.WarehouseItemId)
             .OnDelete(DeleteBehavior.Cascade);
 
         builder
-            .HasOne(item => item.Warehouse)
+            .HasOne(item => item.WarehouseItem)
             .WithMany()
-            .HasForeignKey(item => item.WarehouseId)
+            .HasForeignKey(item => item.WarehouseItemId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }
