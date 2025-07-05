@@ -7,8 +7,8 @@ public class UpdateItemGroupRequestValidator : AbstractValidator<UpdateItemGroup
 {
     public UpdateItemGroupRequestValidator()
     {
-        RuleFor(entity => entity.Name).NotNull().NotEmpty().WithMessage("Item's name cant be null or empty.");
+        RuleFor(entity => entity.Name).NotNull().NotEmpty().WithMessage("WarehouseItem's name cant be null or empty.");
 
-        RuleFor(entity => entity.Description).NotNull().NotEmpty().WithMessage("Item's description cant be null or empty.");
+        RuleFor(entity => entity.Description).NotNull().NotEmpty().WithMessage("WarehouseItem's description cant be null or empty.");
     }
 }

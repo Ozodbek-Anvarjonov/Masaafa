@@ -1,4 +1,6 @@
-﻿namespace Masaafa.WebApi.Models.TransferRequests;
+﻿using Masaafa.Domain.Enums;
+
+namespace Masaafa.WebApi.Models.TransferRequests;
 
 public class CreateTransferRequest
 {
@@ -8,8 +10,9 @@ public class CreateTransferRequest
     public Guid FromWarehouseId { get; set; }
     public Guid ToWarehouseId { get; set; }
 
-    public DateTime? ApprovedDate { get; set; }
+    public TransferRequestStatus Status { get; set; }
 
+    public DateTime? ApprovedDate { get; set; }
     public DateTime? RejectedDate { get; set; }
     public string? RejectionReason { get; set; }
 }
