@@ -8,9 +8,9 @@ public class CreateWarehouseItemRequestValidator : AbstractValidator<CreateWareh
     public CreateWarehouseItemRequestValidator()
     {
         RuleFor(entity => entity.Quantity)
-            .GreaterThanOrEqualTo(0).WithMessage("Warehouse's item's quantity cant be lower than 0.");
+            .GreaterThanOrEqualTo(0).WithMessage("WarehouseItem's item's quantity cant be lower than 0.");
 
         RuleFor(entity => entity.ReservedQuantity)
-            .GreaterThanOrEqualTo(0).WithMessage("Warehouse's item's reserved quantity cant be lower than 0.");
+            .GreaterThanOrEqualTo(0).WithMessage("WarehouseItem's item's reserved quantity cant be lower than 0.");
     }
 }
