@@ -18,5 +18,13 @@ public interface IUnitOfWork : ITransactionManager, IDisposable, IAsyncDisposabl
     IWarehouseRepository Warehouses { get; }
     IWarehouseItemRepository WarehouseItems { get; }
 
+    ITransferRequestRepository TransferRequests { get; }
+    ITransferRequestItemRepository TransferRequestItems { get; }
+
+    ISalesOrderRepository SalesOrders { get; }
+    ISalesOrderItemRepository SalesOrderItems { get; }
+
+    IPaymentRepository Payments { get; }
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

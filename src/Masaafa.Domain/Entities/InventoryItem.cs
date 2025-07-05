@@ -9,8 +9,8 @@ public class InventoryItem : SoftDeletedEntity
     public Guid InventoryId { get; set; }
     public Inventory Inventory { get; set; } = default!;
 
-    public Guid ItemId { get; set; }
-    public Item Item { get; set; } = default!;
+    public Guid WarehouseItemId { get; set; }
+    public WarehouseItem WarehouseItem { get; set; } = default!;
 
     public decimal SystemQuantity { get; set; }
     public decimal ActualQuantity { get; set; }

@@ -15,9 +15,15 @@ public class TransferRequestItemConfiguration : IEntityTypeConfiguration<Transfe
             .OnDelete(DeleteBehavior.Cascade);
 
         builder
-           .HasOne(item => item.Item)
+           .HasOne(item => item.FromWarehouseItem)
            .WithMany()
-           .HasForeignKey(item => item.ItemId)
+           .HasForeignKey(item => item.FromWarehouseItemId)
+           .OnDelete(DeleteBehavior.Cascade);
+
+        builder
+           .HasOne(item => item.ToWarehouseItem)
+           .WithMany()
+           .HasForeignKey(item => item.ToWarehouseItemId)
            .OnDelete(DeleteBehavior.Cascade);
     }
 }

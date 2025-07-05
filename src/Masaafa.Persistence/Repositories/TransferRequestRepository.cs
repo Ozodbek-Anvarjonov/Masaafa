@@ -3,11 +3,12 @@ using Masaafa.Domain.Entities;
 using Masaafa.Persistence.DataContext;
 using Masaafa.Persistence.Extensions;
 using Masaafa.Persistence.Repositories.Interfaces;
+using Masaafa.Persistence.UnitOfWork.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Masaafa.Persistence.Repositories;
 
-public class TransferRequestRepository(AppDbContext context)
+public class TransferRequestRepository(AppDbContext context, IUserContext userContext)
     : EntityRepositoryBase<TransferRequest, AppDbContext>(context), ITransferRequestRepository
 {
     public async Task<PaginationResult<TransferRequest>> GetAsync(
@@ -65,6 +66,11 @@ public class TransferRequestRepository(AppDbContext context)
 
     public new async Task<TransferRequest> DeleteAsync(TransferRequest inventory, bool saveChanges, CancellationToken cancellationToken = default)
     {
+        await Context
+            .Set<TransferRequestItem>()
+            .Where(entity => entity.TransferRequestId == inventory.Id && !entity.IsDeleted)
+            .SoftDeleteAsync(userContext.GetRequiredUserId(), cancellationToken);
+
         return await base.DeleteAsync(inventory, saveChanges, cancellationToken);
     }
 }

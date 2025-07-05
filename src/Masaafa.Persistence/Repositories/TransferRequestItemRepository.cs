@@ -29,7 +29,8 @@ public class TransferRequestItemRepository(AppDbContext context)
         exists = exists
             .OrderBy(filter)
             .Include(entity => entity.TransferRequest)
-            .Include(entity => entity.Item);
+            .Include(entity => entity.FromWarehouseItem)
+            .Include(entity => entity.ToWarehouseItem);
 
         return await exists.ToPaginateAsync(@params, cancellationToken);
     }
@@ -43,7 +44,8 @@ public class TransferRequestItemRepository(AppDbContext context)
 
         exist = exist
             .Include(entity => entity.TransferRequest)
-            .Include(entity => entity.Item);
+            .Include(entity => entity.FromWarehouseItem)
+            .Include(entity => entity.ToWarehouseItem);
 
         return await exist.FirstOrDefaultAsync(cancellationToken);
     }

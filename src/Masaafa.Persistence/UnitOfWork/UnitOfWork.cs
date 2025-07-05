@@ -22,7 +22,12 @@ public class UnitOfWork<TContext> : IUnitOfWork where TContext : DbContext
         IWarehouseItemRepository warehouseItemRepository,
         IWarehouseRepository warehouseRepository,
         IInventoryRepository inventories,
-        IInventoryItemRepository inventoryItems
+        IInventoryItemRepository inventoryItems,
+        ITransferRequestRepository transferRequests,
+        ITransferRequestItemRepository transferRequestItems,
+        ISalesOrderRepository salesOrders,
+        ISalesOrderItemRepository salesOrderItems,
+        IPaymentRepository payments
         )
     {
         _dbContext = context ?? throw new ArgumentNullException(nameof(context));
@@ -39,6 +44,14 @@ public class UnitOfWork<TContext> : IUnitOfWork where TContext : DbContext
 
         Inventories = inventories;
         InventoryItems = inventoryItems;
+
+        TransferRequestItems = transferRequestItems;
+        TransferRequests = transferRequests;
+
+        SalesOrderItems = salesOrderItems;
+        SalesOrders = salesOrders;
+
+        Payments = payments;
     }
 
     #region Repositories
@@ -55,6 +68,14 @@ public class UnitOfWork<TContext> : IUnitOfWork where TContext : DbContext
 
     public IWarehouseItemRepository WarehouseItems { get; }
     public IWarehouseRepository Warehouses { get; }
+
+    public ITransferRequestRepository TransferRequests { get; }
+    public ITransferRequestItemRepository TransferRequestItems { get; }
+
+    public ISalesOrderRepository SalesOrders { get; }
+    public ISalesOrderItemRepository SalesOrderItems { get; }
+
+    public IPaymentRepository Payments { get; }
     #endregion
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default) =>

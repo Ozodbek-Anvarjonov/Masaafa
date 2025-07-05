@@ -19,14 +19,15 @@ public class TransferRequest : SoftDeletedEntity
     public TransferRequestStatus Status { get; set; } = TransferRequestStatus.New;
     public TransferProcessStatus ProcessStatus { get; set; } = TransferProcessStatus.OnProcess;
     
+    public DateTimeOffset CreatedDate { get; set; }
     public Guid CreatedByUserId { get; set; }
     public Employee CreatedByUser { get; set; } = default!;
 
-    public DateTime? ApprovedDate { get; set; }
+    public DateTimeOffset? ApprovedDate { get; set; }
     public Guid? ApprovedByUserId { get; set; }
     public Employee? ApprovedByUser { get; set; }
 
-    public DateTime? RejectedDate { get; set; }
+    public DateTimeOffset? RejectedDate { get; set; }
     public Guid? RejectedByUserId { get; set; }
     public Employee? RejectedByUser { get; set; }
     public string? RejectionReason { get; set; }

@@ -80,12 +80,12 @@ public class ItemRepository(AppDbContext context, IUserContext userContext) : En
     {
         await Context
             .Set<WarehouseItem>()
-            .Where(entity => entity.WarehouseId == item.Id)
+            .Where(entity => entity.ItemId == item.Id)
             .SoftDeleteAsync(userContext.GetRequiredUserId(), cancellationToken);
 
         await Context
             .Set<InventoryItem>()
-            .Where(entity => entity.ItemId == item.Id)
+            .Where(entity => entity.WarehouseItem.ItemId == item.Id)
             .SoftDeleteAsync(userContext.GetRequiredUserId(), cancellationToken);
 
         return await base.DeleteAsync(item, saveChanges, cancellationToken);
