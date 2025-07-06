@@ -34,6 +34,7 @@ public static class DependencyInjection
             .AddScoped<ITransferRequestService, TransferRequestService>()
             .AddScoped<ISalesOrderItemService, SalesOrderItemService>()
             .AddScoped<ISalesOrderService, SalesOrderService>()
-            .AddScoped<IPaymentService, PaymentService>();
+            .AddScoped<IPaymentService, PaymentService>()
+            .AddScoped<IBalanceService, BalanceService>();
     }
 }

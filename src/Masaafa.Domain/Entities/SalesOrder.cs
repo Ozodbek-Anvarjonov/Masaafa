@@ -11,6 +11,9 @@ public class SalesOrder : SoftDeletedEntity
     public DateTimeOffset DocDate { get; set; }
     public DateTimeOffset DocDueDate { get; set; }
 
+    public Guid? PaymentId { get; set; }
+    public Payment? Payment { get; set; }
+
     public Guid ClientId { get; set; }
     public Client Client { get; set; } = default!;
 

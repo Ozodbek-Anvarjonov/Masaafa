@@ -18,5 +18,11 @@ public interface ITransferRequestService
 
     Task<TransferRequest> UpdateAsync(Guid id, TransferRequest request, CancellationToken cancellationToken = default);
 
+    Task<TransferRequest> UpdateWarehousesAsync(Guid id, TransferRequest request, CancellationToken cancellationToken = default);
+
+    Task<TransferRequest> UpdateApproveAsync(Guid id, TransferRequest request, CancellationToken cancellationToken = default);
+
+    Task<TransferRequest> UpdateRejectAsync(Guid id, TransferRequest request, CancellationToken cancellationToken = default);
+
     Task<bool> DeleteByIdAsync(Guid id, CancellationToken cancellationToken = default);
 }

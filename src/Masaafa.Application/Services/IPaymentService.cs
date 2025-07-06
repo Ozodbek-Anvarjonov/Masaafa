@@ -18,5 +18,7 @@ public interface IPaymentService
 
     Task<Payment> UpdateAsync(Guid id, Payment payment, CancellationToken cancellationToken = default);
 
+    Task<Payment> UpdateCompleteAsync(Guid id, Payment payment, CancellationToken cancellationToken = default);
+
     Task<bool> DeleteByIdAsync(Guid id, CancellationToken cancellationToken = default);
 }

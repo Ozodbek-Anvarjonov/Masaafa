@@ -18,5 +18,11 @@ public interface ISalesOrderItemService
 
     Task<SalesOrderItem> UpdateAsync(Guid id, SalesOrderItem item, CancellationToken cancellationToken = default);
 
+    Task<SalesOrderItem> UpdateWarehouseAsync(Guid id, Guid warehouseId, CancellationToken cancellationToken = default);
+
+    Task<SalesOrderItem> UpdateSendAsync(Guid id, SalesOrderItem item, CancellationToken cancellationToken = default);
+
+    Task<SalesOrderItem> UpdateReceiveAsync(Guid id, SalesOrderItem item, CancellationToken cancellationToken = default);
+
     Task<bool> DeleteByIdAsync(Guid id, CancellationToken cancellationToken = default);
 }

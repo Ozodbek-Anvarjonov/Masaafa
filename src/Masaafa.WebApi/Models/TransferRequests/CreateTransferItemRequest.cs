@@ -10,7 +10,4 @@ public class CreateTransferItemRequest
 
     public decimal Quantity { get; set; }
     public decimal UnitPrice { get; set; }
-
-    public DateTime? SentDate { get; set; }
-    public DateTime? ReceivedDate { get; set; }
 }

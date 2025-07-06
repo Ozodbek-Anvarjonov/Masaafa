@@ -33,7 +33,8 @@ public class SalesOrderRepository(AppDbContext context, IUserContext userContext
             .Include(entity => entity.CreatedByUser)
             .Include(entity => entity.ApprovedByUser)
             .Include(entity => entity.RejectedByUser)
-            .Include(entity => entity.CancelledByUser);
+            .Include(entity => entity.CancelledByUser)
+            .Include(entity => entity.Payment);
 
         return await exists.ToPaginateAsync(@params, cancellationToken);
     }
@@ -50,7 +51,8 @@ public class SalesOrderRepository(AppDbContext context, IUserContext userContext
             .Include(entity => entity.CreatedByUser)
             .Include(entity => entity.ApprovedByUser)
             .Include(entity => entity.RejectedByUser)
-            .Include(entity => entity.CancelledByUser);
+            .Include(entity => entity.CancelledByUser)
+            .Include(entity => entity.Payment);
 
         return await exist.FirstOrDefaultAsync(cancellationToken);
     }

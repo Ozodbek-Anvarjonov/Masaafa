@@ -10,7 +10,4 @@ public class CreateSalesOrderItemRequest
     public decimal DiscountPercent { get; set; } = 0;
     public decimal UnitPrice { get; set; }
     public decimal Quantity { get; set; }
-
-    public DateTime? SentDate { get; set; }
-    public DateTime? ReceivedDate { get; set; }
 }

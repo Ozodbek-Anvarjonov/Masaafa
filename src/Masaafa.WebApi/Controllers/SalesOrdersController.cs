@@ -2,6 +2,7 @@
 using FluentValidation;
 using Masaafa.Application.Common.Abstractions;
 using Masaafa.Application.Services;
+using Masaafa.Domain.Common.Entities;
 using Masaafa.Domain.Common.Pagination;
 using Masaafa.Domain.Entities;
 using Masaafa.WebApi.Extensions;
@@ -66,5 +67,29 @@ public class SalesOrdersController(
         var result = await salesOrderService.DeleteByIdAsync(id, CancellationToken);
 
         return Ok(result);
+    }
+
+    [HttpPatch("{id:guid}/approve")]
+    public async ValueTask<IActionResult> PatchApprove([FromRoute] Guid id, [FromBody] UpdateSalesOrderApprovedRequest request)
+    {
+        var result = await salesOrderService.UpdateApproveAsync(id, mapper.Map<SalesOrder>(request), CancellationToken);
+
+        return Ok(mapper.Map<SalesOrderResponse>(result));
+    }
+
+    [HttpPatch("{id:guid}/reject")]
+    public async ValueTask<IActionResult> PatchReject([FromRoute] Guid id, [FromBody] UpdateSalesOrderRejectRequest request)
+    {
+        var result = await salesOrderService.UpdateRejectAsync(id, mapper.Map<SalesOrder>(request), CancellationToken);
+
+        return Ok(mapper.Map<SalesOrderResponse>(result));
+    }
+
+    [HttpPatch("{id:guid}/cancel")]
+    public async ValueTask<IActionResult> PatchCancel([FromRoute] Guid id, [FromBody] UpdateSalesOrderCancelRequest request)
+    {
+        var result = await salesOrderService.UpdateCancelAsync(id, mapper.Map<SalesOrder>(request), CancellationToken);
+
+        return Ok(mapper.Map<SalesOrderResponse>(result));
     }
 }

@@ -13,7 +13,4 @@ public class CreatePaymentRequest
     public PaymentType Type { get; set; }
 
     public DateTimeOffset CreatedDate { get; set; }
-    public DateTimeOffset? CompletedDate { get; set; }
-    public DateTimeOffset? RejectedDate { get; set; }
-    public string? RejectionReason { get; set; }
 }

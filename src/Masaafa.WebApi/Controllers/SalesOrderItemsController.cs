@@ -4,6 +4,7 @@ using Masaafa.Application.Common.Abstractions;
 using Masaafa.Application.Services;
 using Masaafa.Domain.Common.Pagination;
 using Masaafa.Domain.Entities;
+using Masaafa.Infrastructure.Services;
 using Masaafa.WebApi.Extensions;
 using Masaafa.WebApi.Models.SalesOrders;
 using Microsoft.AspNetCore.Mvc;
@@ -66,5 +67,30 @@ public class SalesOrderItemsController(
         var result = await salesOrderItemService.DeleteByIdAsync(id, CancellationToken);
 
         return Ok(result);
+    }
+
+
+    [HttpPatch("{salesOrderId:guid}/{warehouseId:guid}")]
+    public async ValueTask<IActionResult> PatchWarehouse([FromRoute] Guid salesOrderId, [FromRoute] Guid warehouseId)
+    {
+        var result = await salesOrderItemService.UpdateWarehouseAsync(salesOrderId, warehouseId, CancellationToken);
+
+        return Ok(mapper.Map<SalesOrderResponse>(result));
+    }
+
+    [HttpPatch("{id:guid}/send")]
+    public async ValueTask<IActionResult> PatchSendDate([FromRoute] Guid id, [FromBody] UpdateSalesOrderItemSendDate request)
+    {
+        var entity = await salesOrderItemService.UpdateSendAsync(id, mapper.Map<SalesOrderItem>(request), CancellationToken);
+
+        return Ok(mapper.Map<SalesOrderItemResponse>(request));
+    }
+
+    [HttpPatch("{id:guid}/receive")]
+    public async ValueTask<IActionResult> PatchReceiveDate([FromRoute] Guid id, [FromBody] UpdateSalesOrderItemReceiveDate request)
+    {
+        var entity = await salesOrderItemService.UpdateReceiveAsync(id, mapper.Map<SalesOrderItem>(request), CancellationToken);
+
+        return Ok(mapper.Map<SalesOrderItemResponse>(request));
     }
 }

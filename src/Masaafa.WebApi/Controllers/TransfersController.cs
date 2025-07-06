@@ -5,7 +5,6 @@ using Masaafa.Application.Services;
 using Masaafa.Domain.Common.Pagination;
 using Masaafa.Domain.Entities;
 using Masaafa.WebApi.Extensions;
-using Masaafa.WebApi.Models.Inventories;
 using Masaafa.WebApi.Models.TransferRequests;
 using Microsoft.AspNetCore.Mvc;
 
@@ -57,6 +56,46 @@ public class TransfersController(
         await updateValidator.EnsureValidationAsync(request);
 
         var entity = await transferRequestService.UpdateAsync(id, mapper.Map<TransferRequest>(request), CancellationToken);
+
+        return Ok(mapper.Map<TransferResponse>(entity));
+    }
+
+    [HttpPatch("{transferId:guid}/{fromWarehouseId:guid}/{toWarehouseId:guid}")]
+    public async ValueTask<IActionResult> PatchWarehouses(
+        [FromRoute] Guid transferId,
+        [FromRoute] Guid fromWarehouseId,
+        [FromRoute] Guid toWarehouseId
+        )
+    {
+        var entity = await transferRequestService.UpdateWarehousesAsync(transferId, 
+            new() { FromWarehouseId = fromWarehouseId, ToWarehouseId = toWarehouseId },
+            CancellationToken);
+
+        return Ok(mapper.Map<TransferResponse>(entity));
+    }
+
+    [HttpPatch("{id:guid}/approve")]
+    public async ValueTask<IActionResult> PatchApprove(
+        [FromRoute] Guid id,
+        [FromBody] UpdateTransferApproveRequest request
+        )
+    {
+        var entity = await transferRequestService.UpdateApproveAsync(id,
+            mapper.Map<TransferRequest>(request),
+            CancellationToken);
+
+        return Ok(mapper.Map<TransferResponse>(entity));
+    }
+
+    [HttpPatch("{id:guid}/reject")]
+    public async ValueTask<IActionResult> PatchReject(
+        [FromRoute] Guid id,
+        [FromBody] UpdateTransferRejectRequest request
+        )
+    {
+        var entity = await transferRequestService.UpdateRejectAsync(id,
+            mapper.Map<TransferRequest>(request),
+            CancellationToken);
 
         return Ok(mapper.Map<TransferResponse>(entity));
     }

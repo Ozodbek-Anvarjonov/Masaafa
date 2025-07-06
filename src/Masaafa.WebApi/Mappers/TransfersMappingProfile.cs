@@ -11,9 +11,13 @@ public class TransfersMappingProfile : Profile
         CreateMap<CreateTransferItemRequest, TransferRequestItem>();
         CreateMap<UpdateTransferItemRequest, TransferRequestItem>();
         CreateMap<TransferRequestItem, TransferItemResponse>();
+        CreateMap<UpdateTransferItemSentDate, TransferRequestItem>();
+        CreateMap<UpdateTransferItemReceiveDate, TransferRequestItem>();
 
         CreateMap<CreateTransferRequest, TransferRequest>();
         CreateMap<UpdateTransferRequest, TransferRequest>();
         CreateMap<TransferRequest, TransferResponse>();
+        CreateMap<UpdateTransferApproveRequest, TransferRequest>();
+        CreateMap<UpdateTransferRejectRequest, TransferRequest>();
     }
 }

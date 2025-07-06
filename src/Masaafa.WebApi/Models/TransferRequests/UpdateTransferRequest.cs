@@ -8,13 +8,4 @@ public class UpdateTransferRequest
 
     public string RequestNumber { get; set; } = default!;
     public string? Note { get; set; }
-
-    public Guid FromWarehouseId { get; set; }
-    public Guid ToWarehouseId { get; set; }
-
-    public TransferRequestStatus Status { get; set; }
-
-    public DateTime? ApprovedDate { get; set; }
-    public DateTime? RejectedDate { get; set; }
-    public string? RejectionReason { get; set; }
 }

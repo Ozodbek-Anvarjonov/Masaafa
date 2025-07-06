@@ -15,6 +15,9 @@ public class SalesOrderResponse
     public DateTimeOffset DocDate { get; set; }
     public DateTimeOffset DocDueDate { get; set; }
 
+    public Guid? PaymentId { get; set; }
+    public Payment? Payment { get; set; }
+
     public Guid ClientId { get; set; }
     public ClientResponse Client { get; set; } = default!;
 

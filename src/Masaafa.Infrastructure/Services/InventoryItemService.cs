@@ -65,11 +65,17 @@ public class InventoryItemService(
         if (item.ActualQuantity < exist.WarehouseItem.Quantity * 90 / 100 && item.Description is null)
             throw new CustomException("Difference between actual quantity and available quantity is high, description is required.", HttpStatusCode.BadRequest);
 
+        if (exist.CountedDate != item.CountedDate)
+        {
+            item.CountedDate = DateTimeOffset.UtcNow;
+            item.CountedByUserId = userContext.GetRequiredUserId();
+        }
 
         exist.WarehouseItemId = item.WarehouseItemId;
         exist.Notes = item.Notes;
         exist.Description = item.Description;
         exist.ActualQuantity = item.ActualQuantity;
+        exist.CountedDate = item.CountedDate;
 
         _ = await unitOfWork.SaveChangesAsync(cancellationToken);
 

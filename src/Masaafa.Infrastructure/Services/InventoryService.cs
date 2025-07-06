@@ -4,6 +4,7 @@ using Masaafa.Domain.Entities;
 using Masaafa.Domain.Enums;
 using Masaafa.Domain.Exceptions;
 using Masaafa.Persistence.UnitOfWork.Interfaces;
+using System.Net;
 
 namespace Masaafa.Infrastructure.Services;
 
@@ -42,6 +43,9 @@ public class InventoryService(IUnitOfWork unitOfWork, IUserContext userContext) 
 
         if (inventory.CompletedDate is not null)
         {
+            if (inventory.StartedDate is null)
+                throw new CustomException("It is required to enter start date.", HttpStatusCode.BadRequest);
+
             inventory.CompletedByUserId = userContext.GetRequiredUserId();
             inventory.Status = InventoryStatus.Completed;
         }

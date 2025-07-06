@@ -12,5 +12,6 @@ public class PaymentMappingProfile : Profile
         CreateMap<CreatePaymentRequest, Payment>();
         CreateMap<UpdatePaymentRequest, Payment>();
         CreateMap<Payment, PaymentResponse>();
+        CreateMap<UpdatePaymentCompleteRequest, Payment>();
     }
 }

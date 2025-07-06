@@ -18,5 +18,11 @@ public interface ITransferRequestItemService
 
     Task<TransferRequestItem> UpdateAsync(Guid id, TransferRequestItem item, CancellationToken cancellationToken = default);
 
+    Task<TransferRequestItem> UpdateWarehouseItemAsync(Guid id, TransferRequestItem item, CancellationToken cancellationToken = default);
+
+    Task<TransferRequestItem> UpdateSendDateAsync(Guid id, TransferRequestItem item, CancellationToken cancellationToken = default);
+
+    Task<TransferRequestItem> UpdateReceiveAsync(Guid id, TransferRequestItem item, CancellationToken cancellationToken = default);
+
     Task<bool> DeleteByIdAsync(Guid id, CancellationToken cancellationToken = default);
 }

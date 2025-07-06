@@ -11,7 +11,7 @@ public static class SoftDeletingExtension
         CancellationToken cancellationToken = default
         ) where TEntity : class, ISoftDeletedEntity
     {
-        await source.ExecuteUpdateAsync(
+       await source.ExecuteUpdateAsync(
             call => call
                 .SetProperty(entity => entity.IsDeleted, true)
                 .SetProperty(entity => entity.DeletedAt, DateTimeOffset.UtcNow)

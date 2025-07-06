@@ -8,8 +8,6 @@ public class TransferRequest : SoftDeletedEntity
     public string RequestNumber { get; set; } = default!;
     public string? Note { get; set; }
 
-    public DateTime RequestDate { get; set; }
-
     public Guid FromWarehouseId { get; set; }
     public Warehouse FromWarehouse { get; set; } = default!;
 

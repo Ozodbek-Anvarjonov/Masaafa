@@ -60,6 +60,14 @@ public class PaymentsController(
         return Ok(mapper.Map<PaymentResponse>(entity));
     }
 
+    [HttpPatch("{id:guid}")]
+    public async ValueTask<IActionResult> Patch([FromRoute] Guid id, [FromBody] UpdatePaymentCompleteRequest request)
+    {
+        var entity = await paymentService.UpdateCompleteAsync(id, mapper.Map<Payment>(request), CancellationToken);
+
+        return Ok(mapper.Map<PaymentResponse>(entity));
+    }
+
     [HttpDelete("{id:guid}")]
     public async ValueTask<IActionResult> Delete([FromRoute] Guid id)
     {

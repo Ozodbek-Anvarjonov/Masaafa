@@ -61,6 +61,34 @@ public class TransferItemsController(
         return Ok(mapper.Map<TransferItemResponse>(entity));
     }
 
+    [HttpPatch("{transferItemId:guid}/{fromWarehouseItemId}/{toWarehouseItemId}")]
+    public async ValueTask<IActionResult> PatchWarehouse([FromRoute] Guid transferItemId, [FromRoute] Guid fromWarehouseItemId, [FromRoute] Guid toWarehouseItemId)
+    {
+        var entity = await transferRequestItemService.UpdateAsync(transferItemId,
+            new TransferRequestItem () { Id = transferItemId, FromWarehouseItemId = fromWarehouseItemId, ToWarehouseItemId = toWarehouseItemId},
+            CancellationToken);
+
+        return Ok(mapper.Map<TransferItemResponse>(entity));
+    }
+
+    [HttpPatch("{id:guid}/send-date")]
+    public async ValueTask<IActionResult> PatchSentDate([FromRoute] Guid id, [FromBody] UpdateTransferItemSentDate request)
+    {
+        var entity = await transferRequestItemService.UpdateSendDateAsync(id, mapper.Map<TransferRequestItem>(request), CancellationToken);
+
+        return Ok(mapper.Map<TransferItemResponse>(entity));
+    }
+
+    [HttpPatch("{id:guid}/receive-date")]
+    public async ValueTask<IActionResult> PatchReceiveDate([FromRoute] Guid id, [FromBody] UpdateTransferItemReceiveDate request)
+    {
+        var entity = await transferRequestItemService.UpdateReceiveAsync(id,
+            mapper.Map<TransferRequestItem>(request),
+            CancellationToken);
+
+        return Ok(mapper.Map<TransferItemResponse>(entity));
+    }
+
     [HttpDelete("{id:guid}")]
     public async ValueTask<IActionResult> Delete([FromRoute] Guid id)
     {
