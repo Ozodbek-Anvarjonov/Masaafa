@@ -83,7 +83,7 @@ public class SalesOrderItemsController(
     {
         var entity = await salesOrderItemService.UpdateSendAsync(id, mapper.Map<SalesOrderItem>(request), CancellationToken);
 
-        return Ok(mapper.Map<SalesOrderItemResponse>(request));
+        return Ok(mapper.Map<SalesOrderItemResponse>(entity));
     }
 
     [HttpPatch("{id:guid}/receive")]
@@ -91,6 +91,6 @@ public class SalesOrderItemsController(
     {
         var entity = await salesOrderItemService.UpdateReceiveAsync(id, mapper.Map<SalesOrderItem>(request), CancellationToken);
 
-        return Ok(mapper.Map<SalesOrderItemResponse>(request));
+        return Ok(mapper.Map<SalesOrderItemResponse>(entity));
     }
 }

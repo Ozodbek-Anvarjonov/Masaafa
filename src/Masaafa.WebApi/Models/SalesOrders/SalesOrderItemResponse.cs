@@ -21,11 +21,11 @@ public class SalesOrderItemResponse
     public decimal Quantity { get; set; }
     public decimal LineTotal => UnitPrice * Quantity * (1 - DiscountPercent / 100);
 
-    public DateTime? SentDate { get; set; }
+    public DateTimeOffset? SentDate { get; set; }
     public Guid? SendByUserId { get; set; }
     public Employee? SendByUser { get; set; }
 
-    public DateTime? ReceivedDate { get; set; }
+    public DateTimeOffset? ReceivedDate { get; set; }
     public Guid? ReceivedByUserId { get; set; }
     public Employee? ReceivedByUser { get; set; }
 }

@@ -16,7 +16,7 @@ public class SalesOrderResponse
     public DateTimeOffset DocDueDate { get; set; }
 
     public Guid? PaymentId { get; set; }
-    public Payment? Payment { get; set; }
+    //public Payment? Payment { get; set; }
 
     public Guid ClientId { get; set; }
     public ClientResponse Client { get; set; } = default!;
@@ -31,17 +31,17 @@ public class SalesOrderResponse
     public Guid CreatedByUserId { get; set; }
     public EmployeeResponse CreatedByUser { get; set; } = default!;
 
-    public DateTime? ApprovedDate { get; set; }
+    public DateTimeOffset? ApprovedDate { get; set; }
     public Guid? ApprovedByUserId { get; set; }
     public EmployeeResponse? ApprovedByUser { get; set; }
 
-    public DateTime? RejectedDate { get; set; }
+    public DateTimeOffset? RejectedDate { get; set; }
     public Guid? RejectedByUserId { get; set; }
     public EmployeeResponse? RejectedByUser { get; set; }
     public string? RejectionReason { get; set; }
 
     public bool IsCancelled { get; set; } = false;
-    public DateTime? CancelledDate { get; set; }
+    public DateTimeOffset? CancelledDate { get; set; }
     public Guid? CancelledByUserId { get; set; }
     public EmployeeResponse? CancelledByUser { get; set; }
     public string? CancellationReason { get; set; }
