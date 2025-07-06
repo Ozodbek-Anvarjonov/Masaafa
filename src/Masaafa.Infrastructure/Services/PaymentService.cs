@@ -46,7 +46,9 @@ public class PaymentService(
         payment.CreatedDate = DateTimeOffset.UtcNow;
         var entity = await unitOfWork.Payments.CreateAsync(payment, saveChanges: true, cancellationToken: cancellationToken);
 
-        order!.PaymentId = entity.Id;
+        order.PaymentId = entity.Id;
+
+        await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return entity;
     }

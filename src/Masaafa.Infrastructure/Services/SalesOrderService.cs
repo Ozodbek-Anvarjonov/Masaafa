@@ -78,19 +78,21 @@ public class SalesOrderService(IUnitOfWork unitOfWork, IUserContext userContext,
             return exist;
 
 
+        await unitOfWork.BeginTransactionAsync(cancellationToken);
+
         exist.ApprovedDate = order.ApprovedDate;
         exist.ApprovedByUserId = userContext.GetRequiredUserId();
         exist.ConformationStatus = OrderConformationStatus.Approved;
 
         var entities = await unitOfWork.SalesOrderItems
                 .Get()
-                .Where(entity => entity.SalesOrderId == order.Id && !entity.IsDeleted)
+                .Where(entity => entity.SalesOrderId == id && !entity.IsDeleted)
                 .Include(entity => entity.WarehouseItem)
                 .ToListAsync();
 
         var payments = await unitOfWork.Payments
             .Get()
-            .Where(entity => entity.SalesOrderId == order.Id && !entity.IsDeleted)
+            .Where(entity => entity.SalesOrderId == id && !entity.IsDeleted)
             .ExecuteUpdateAsync(call => call.SetProperty(entity => entity.Status, PaymentStatus.InProcess));
 
         foreach (var entity in entities)
@@ -127,13 +129,13 @@ public class SalesOrderService(IUnitOfWork unitOfWork, IUserContext userContext,
 
         var entities = await unitOfWork.SalesOrderItems
                 .Get()
-                .Where(entity => entity.SalesOrderId == order.Id && !entity.IsDeleted)
+                .Where(entity => entity.SalesOrderId == id && !entity.IsDeleted)
                 .Include(entity => entity.WarehouseItem)
                 .ToListAsync();
 
         var payments = await unitOfWork.Payments
             .Get()
-            .Where(entity => entity.SalesOrderId == order.Id && !entity.IsDeleted)
+            .Where(entity => entity.SalesOrderId == id && !entity.IsDeleted)
             .ExecuteUpdateAsync(call => call.SetProperty(entity => entity.Status, PaymentStatus.Rejected));
 
         foreach (var entity in entities)
@@ -162,11 +164,15 @@ public class SalesOrderService(IUnitOfWork unitOfWork, IUserContext userContext,
         var exist = await unitOfWork.SalesOrders.GetByIdAsync(id, asNoTracking: false, cancellationToken: cancellationToken)
             ?? throw new NotFoundException(nameof(SalesOrder), nameof(SalesOrder.Id), id.ToString());
 
+        if (exist.IsCancelled)
+            return exist;
+
         if (exist.ConformationStatus is not OrderConformationStatus.Approved)
         {
             exist.CancelledByUserId = userContext.GetRequiredUserId();
             exist.CancelledDate = order.CancelledDate;
             exist.CancellationReason = order.CancellationReason;
+            exist.IsCancelled = true;
 
             await unitOfWork.SaveChangesAsync(cancellationToken);
 
@@ -177,7 +183,7 @@ public class SalesOrderService(IUnitOfWork unitOfWork, IUserContext userContext,
 
         var entities = await unitOfWork.SalesOrderItems
                 .Get()
-                .Where(entity => entity.SalesOrderId == order.Id && !entity.IsDeleted)
+                .Where(entity => entity.SalesOrderId == id && !entity.IsDeleted)
                 .Include(entity => entity.WarehouseItem)
                 .ToListAsync();
 
@@ -194,8 +200,9 @@ public class SalesOrderService(IUnitOfWork unitOfWork, IUserContext userContext,
         exist.CancelledByUserId = userContext.GetRequiredUserId();
         exist.CancelledDate = order.CancelledDate;
         exist.CancellationReason = order.CancellationReason;
+        exist.IsCancelled = true;
 
-        if (exist.PaymentId is not null && exist.RejectedDate is not null && exist.Payment?.Status is PaymentStatus.Completed)
+        if (exist.PaymentId is not null && exist.Payment?.Status is PaymentStatus.Completed)
         {
             var payment = await unitOfWork.Payments.GetByIdAsync(exist.PaymentId.Value, false, cancellationToken);
             await balanceService.ReverseBalanceAsync(payment!, entities.Sum(entity => entity.LineTotal), false, cancellationToken);

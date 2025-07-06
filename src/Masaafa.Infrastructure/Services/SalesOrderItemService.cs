@@ -170,6 +170,8 @@ public class SalesOrderItemService(IUnitOfWork unitOfWork, IUserContext userCont
         exist.ReceivedDate = item.ReceivedDate;
         exist.ReceivedByUserId = userContext.GetRequiredUserId();
 
+        await unitOfWork.SaveChangesAsync(cancellationToken);
+
         return exist;
     }
 }

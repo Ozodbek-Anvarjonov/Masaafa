@@ -84,7 +84,7 @@ public class TransferRequestService(
 
         var entities = unitOfWork.TransferRequestItems
                 .Get()
-                .Where(entity => entity.TransferRequestId == request.Id && !entity.IsDeleted);
+                .Where(entity => entity.TransferRequestId == id && !entity.IsDeleted);
 
         if (exist.Status != TransferRequestStatus.Approved)
         {
@@ -130,7 +130,7 @@ public class TransferRequestService(
 
         var entities = await unitOfWork.TransferRequestItems
                 .Get()
-                .Where(entity => entity.TransferRequestId == request.Id && !entity.IsDeleted)
+                .Where(entity => entity.TransferRequestId == id && !entity.IsDeleted)
                 .Include(entity => entity.FromWarehouseItem)
                 .ToListAsync();
 
@@ -166,7 +166,7 @@ public class TransferRequestService(
 
         var entities = await unitOfWork.TransferRequestItems
                 .Get()
-                .Where(entity => entity.TransferRequestId == request.Id && !entity.IsDeleted)
+                .Where(entity => entity.TransferRequestId == id && !entity.IsDeleted)
                 .Include(entity => entity.FromWarehouseItem)
                 .ToListAsync();
 

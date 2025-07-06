@@ -12,7 +12,7 @@ public class BalanceService(IUnitOfWork unitOfWork) : IBalanceService
         var amount = unitOfWork.SalesOrderItems
             .Get()
             .Where(entity => entity.SalesOrderId == payment.SalesOrderId && !entity.IsDeleted)
-            .Sum(entity => entity.LineTotal);
+            .Sum(entity => entity.Quantity * entity.UnitPrice * (1 - entity.DiscountPercent / 100));
 
         if (payment.Type is PaymentType.Incoming)
             payment.Client.Balance -= amount;

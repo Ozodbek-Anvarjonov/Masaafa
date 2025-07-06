@@ -31,5 +31,10 @@ public class PaymentConfiguration : IEntityTypeConfiguration<Payment>
             .WithMany()
             .HasForeignKey(payment => payment.CompletedByUserId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder
+            .HasOne(entity => entity.SalesOrder)
+            .WithOne(entity => entity.Payment)
+            .HasForeignKey<Payment>(entity => entity.SalesOrderId);
     }
 }

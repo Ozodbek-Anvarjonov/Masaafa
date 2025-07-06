@@ -59,6 +59,15 @@ public class InventoryItemService(
         var exist = await unitOfWork.InventoryItems.GetByIdAsync(id, asNoTracking: false, cancellationToken: cancellationToken)
             ?? throw new NotFoundException(nameof(InventoryItem), nameof(InventoryItem.Id), id.ToString());
 
+        if (item.WarehouseItemId != exist.WarehouseItemId)
+        {
+            var warehouse = await unitOfWork.WarehouseItems.GetByIdAsync(item.WarehouseItemId)
+                ?? throw new NotFoundException(nameof(WarehouseItem), nameof(Warehouse.Id), item.WarehouseItemId.ToString());
+
+            exist.WarehouseItemId = item.WarehouseItemId;
+            exist.WarehouseItem = warehouse;
+        }
+
         if (item.ActualQuantity > exist.WarehouseItem.Quantity)
             throw new CustomException("Actual quantity cant be greater then the available quantity.", HttpStatusCode.BadRequest);
 
@@ -71,7 +80,6 @@ public class InventoryItemService(
             item.CountedByUserId = userContext.GetRequiredUserId();
         }
 
-        exist.WarehouseItemId = item.WarehouseItemId;
         exist.Notes = item.Notes;
         exist.Description = item.Description;
         exist.ActualQuantity = item.ActualQuantity;
