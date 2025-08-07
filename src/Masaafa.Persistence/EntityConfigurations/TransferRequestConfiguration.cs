@@ -9,6 +9,10 @@ public class TransferRequestConfiguration : IEntityTypeConfiguration<TransferReq
     public void Configure(EntityTypeBuilder<TransferRequest> builder)
     {
         builder
+            .HasIndex(entity => entity.RequestNumber)
+            .IsUnique();
+
+        builder
             .HasOne(transfer => transfer.FromWarehouse)
             .WithMany()
             .HasForeignKey(transfer => transfer.FromWarehouseId)

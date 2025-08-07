@@ -24,7 +24,15 @@ public class TransferRequestItemRepository(AppDbContext context)
             exists = exists.AsNoTracking();
 
         if (search is not null)
-            exists = exists.Where(entity => true);
+            exists = exists.Where(entity => entity.Quantity.ToString().Contains(search)
+                || entity.UnitPrice.ToString().Contains(search)
+                || entity.TransferRequest.RequestNumber.ToLower().Contains(search.ToLower())
+                || entity.FromWarehouseItem.Warehouse.Name.ToLower().Contains(search.ToLower())
+                || entity.FromWarehouseItem.Warehouse.Code.ToLower().Contains(search.ToLower())
+                || entity.FromWarehouseItem.Warehouse.Address.ToLower().Contains(search.ToLower())
+                || entity.ToWarehouseItem.Warehouse.Name.ToLower().Contains(search.ToLower())
+                || entity.ToWarehouseItem.Warehouse.Code.ToLower().Contains(search.ToLower())
+                || entity.ToWarehouseItem.Warehouse.Address.ToLower().Contains(search.ToLower()));
 
         exists = exists
             .OrderBy(filter)

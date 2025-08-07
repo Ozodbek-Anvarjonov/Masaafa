@@ -21,7 +21,16 @@ public class ItemRepository(AppDbContext context, IUserContext userContext) : En
         var exists = Set.Where(entity => !entity.IsDeleted);
 
         if (search is not null)
-            exists = exists.Where(entity => true);
+            exists = exists.Where(entity => entity.ItemCode.ToLower().Contains(search.ToLower())
+                || entity.ItemName.ToLower().Contains(search.ToLower())
+                || entity.Description.ToLower().Contains(search.ToLower())
+                || entity.UnitOfMeasure.ToLower().Contains(search.ToLower())
+                || entity.UnitPrice.ToString().Contains(search)
+                || entity.Barcode.ToLower().Contains(search.ToLower())
+                || entity.Manufacturer.ToLower().Contains(search.ToLower())
+                || entity.Specifications.ToLower().Contains(search.ToLower())
+                || entity.ItemGroup.Name.ToLower().Contains(search.ToLower())
+                || entity.ItemGroup.Description.ToLower().Contains(search.ToLower()));
 
         exists = exists.OrderBy(filter);
         exists = exists.Include(entity => entity.ItemGroup);

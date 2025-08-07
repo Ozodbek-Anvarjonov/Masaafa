@@ -12,6 +12,13 @@ public interface ISalesOrderItemService
         CancellationToken cancellationToken = default
         );
 
+    //Task<PaginationResult<SalesOrderItem>> GetBySalesOrderIdAsync(Guid salesOrderId,
+    //    PaginationParams @params,
+    //    Filter filter,
+    //    string? search = null,
+    //    CancellationToken cancellationToken = default
+    //    );
+
     Task<SalesOrderItem> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
     Task<SalesOrderItem> CreateAsync(SalesOrderItem item, CancellationToken cancellationToken = default);

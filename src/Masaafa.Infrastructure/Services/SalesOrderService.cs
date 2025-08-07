@@ -1,4 +1,5 @@
-﻿using Masaafa.Application.Services;
+﻿using Masaafa.Application.Common.Notifications;
+using Masaafa.Application.Services;
 using Masaafa.Domain.Common.Pagination;
 using Masaafa.Domain.Entities;
 using Masaafa.Domain.Enums;
@@ -9,7 +10,12 @@ using System.Net;
 
 namespace Masaafa.Infrastructure.Services;
 
-public class SalesOrderService(IUnitOfWork unitOfWork, IUserContext userContext, IBalanceService balanceService) : ISalesOrderService
+public class SalesOrderService(
+    IUnitOfWork unitOfWork,
+    IUserContext userContext,
+    IBalanceService balanceService,
+    IMessageSenderService messageSenderService,
+    ISalesOrderMessageRenderingService salesOrderMessageRenderingService) : ISalesOrderService
 {
     public async Task<PaginationResult<SalesOrder>> GetAsync(
         PaginationParams @params,
@@ -35,6 +41,11 @@ public class SalesOrderService(IUnitOfWork unitOfWork, IUserContext userContext,
     {
         order.CreatedByUserId = userContext.GetRequiredUserId();
         var entity = await unitOfWork.SalesOrders.CreateAsync(order, saveChanges: true, cancellationToken: cancellationToken);
+
+        var orderrr = await GetByIdAsync(entity.Id);
+        var message = await salesOrderMessageRenderingService.RenderingAsync(orderrr, SalesOrderNotificationType.CreateSalesOrder, cancellationToken);
+        
+        await messageSenderService.SendAsync(message, orderrr.Client.TelegramId);
 
         return entity;
     }

@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Notifications\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Masaafa.Domain\Masaafa.Domain.csproj" />
   </ItemGroup>
 

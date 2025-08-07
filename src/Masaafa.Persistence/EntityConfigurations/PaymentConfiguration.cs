@@ -9,6 +9,10 @@ public class PaymentConfiguration : IEntityTypeConfiguration<Payment>
     public void Configure(EntityTypeBuilder<Payment> builder)
     {
         builder
+            .HasIndex(entity => entity.PaymentNumber)
+            .IsUnique();
+
+        builder
             .HasOne(payment => payment.Client)
             .WithMany()
             .HasForeignKey(payment => payment.ClientId)

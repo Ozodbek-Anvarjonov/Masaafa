@@ -4,13 +4,15 @@ using Masaafa.Application.Common.Abstractions;
 using Masaafa.Application.Services;
 using Masaafa.Domain.Common.Pagination;
 using Masaafa.Domain.Entities;
+using Masaafa.Domain.Enums;
 using Masaafa.WebApi.Extensions;
-using Masaafa.WebApi.Models.Inventories;
+using Masaafa.WebApi.Filters;
 using Masaafa.WebApi.Models.TransferRequests;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Masaafa.WebApi.Controllers;
 
+[CustomAuthorize(nameof(UserRole.WarehouseOperator), nameof(UserRole.Supervisor), nameof(UserRole.SalesDirector))]
 public class TransferItemsController(
     IMapper mapper,
     IHeaderService headerService,
@@ -65,7 +67,7 @@ public class TransferItemsController(
     public async ValueTask<IActionResult> PatchWarehouse([FromRoute] Guid transferItemId, [FromRoute] Guid fromWarehouseItemId, [FromRoute] Guid toWarehouseItemId)
     {
         var entity = await transferRequestItemService.UpdateAsync(transferItemId,
-            new TransferRequestItem () { Id = transferItemId, FromWarehouseItemId = fromWarehouseItemId, ToWarehouseItemId = toWarehouseItemId},
+            new TransferRequestItem() { Id = transferItemId, FromWarehouseItemId = fromWarehouseItemId, ToWarehouseItemId = toWarehouseItemId },
             CancellationToken);
 
         return Ok(mapper.Map<TransferItemResponse>(entity));

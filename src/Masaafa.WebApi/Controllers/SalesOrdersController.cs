@@ -5,12 +5,15 @@ using Masaafa.Application.Services;
 using Masaafa.Domain.Common.Entities;
 using Masaafa.Domain.Common.Pagination;
 using Masaafa.Domain.Entities;
+using Masaafa.Domain.Enums;
 using Masaafa.WebApi.Extensions;
+using Masaafa.WebApi.Filters;
 using Masaafa.WebApi.Models.SalesOrders;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Masaafa.WebApi.Controllers;
 
+//[CustomAuthorize(nameof(UserRole.Agent), nameof(UserRole.WarehouseOperator), nameof(UserRole.Supervisor), nameof(UserRole.SalesDirector))]
 public class SalesOrdersController(
     IMapper mapper,
     IHeaderService headerService,
@@ -19,6 +22,7 @@ public class SalesOrdersController(
     IValidator<UpdateSalesOrderRequest> updateValidator
     ) : BaseController
 {
+    //[CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Agent), nameof(UserRole.WarehouseOperator), nameof(UserRole.Supervisor), nameof(UserRole.SalesDirector))]
     [HttpGet]
     public async ValueTask<IActionResult> Get(
         [FromQuery] PaginationParams @params,
@@ -33,6 +37,7 @@ public class SalesOrdersController(
         return Ok(mapper.Map<IEnumerable<SalesOrderResponse>>(result.Data));
     }
 
+    //[CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Agent), nameof(UserRole.WarehouseOperator), nameof(UserRole.Supervisor), nameof(UserRole.SalesDirector))]
     [HttpGet("{id:guid}")]
     public async ValueTask<IActionResult> GetById([FromRoute] Guid id)
     {

@@ -4,13 +4,16 @@ using Masaafa.Application.Common.Abstractions;
 using Masaafa.Application.Services;
 using Masaafa.Domain.Common.Pagination;
 using Masaafa.Domain.Entities;
+using Masaafa.Domain.Enums;
 using Masaafa.WebApi.Extensions;
+using Masaafa.WebApi.Filters;
 using Masaafa.WebApi.Models.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Masaafa.WebApi.Controllers;
 
-//[CustomAuthorize(nameof(UserRole.Agent))]
+[CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Agent), nameof(UserRole.WarehouseOperator), nameof(UserRole.Supervisor), nameof(UserRole.SalesDirector))]
 public class ClientsController(
     IClientService clientService,
     IHeaderService headerService,
@@ -18,6 +21,7 @@ public class ClientsController(
     IValidator<CreateClientRequest> createValidator,
     IValidator<UpdateClientRequest> updateValidator) : BaseController
 {
+    [AllowAnonymous]
     [HttpGet]
     public async ValueTask<IActionResult> Get(
         [FromQuery] PaginationParams @params,
@@ -31,7 +35,7 @@ public class ClientsController(
         return Ok(mapper.Map<IEnumerable<ClientResponse>>(result.Data));
     }
 
-
+    [AllowAnonymous]
     [HttpGet("{id:guid}")]
     public async ValueTask<IActionResult> GetById([FromRoute] Guid id)
     {

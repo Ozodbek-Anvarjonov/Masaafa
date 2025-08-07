@@ -21,7 +21,11 @@ public class WarehouseRepository(AppDbContext context, IUserContext userContext)
         var exits = Set.Where(entity => !entity.IsDeleted);
 
         if (search is not null)
-            exits = exits.Where(entity => true);
+            exits = exits.Where(entity => entity.Name.ToLower().Contains(search.ToLower())
+                || entity.Code.ToLower().Contains(search.ToLower())
+                || entity.Address.ToLower().Contains(search.ToLower())
+                || entity.Latitude.ToString().Contains(search)
+                || entity.Longitude.ToString().Contains(search));
 
         exits = exits.OrderBy(filter);
 

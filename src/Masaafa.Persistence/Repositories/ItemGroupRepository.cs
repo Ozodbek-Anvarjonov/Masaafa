@@ -21,7 +21,8 @@ public class ItemGroupRepository(AppDbContext context, IUserContext userContext)
         var exists = Set.Where(entity => !entity.IsDeleted);
 
         if (search is not null)
-            exists = exists.Where(entity => true);
+            exists = exists.Where(entity => entity.Name.ToLower().Contains(search.ToLower())
+                || entity.Description.ToLower().Contains(search.ToLower()));
 
         exists = exists.OrderBy(filter);
 

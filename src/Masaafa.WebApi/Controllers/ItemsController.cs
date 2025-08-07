@@ -4,13 +4,17 @@ using Masaafa.Application.Common.Abstractions;
 using Masaafa.Application.Services;
 using Masaafa.Domain.Common.Pagination;
 using Masaafa.Domain.Entities;
+using Masaafa.Domain.Enums;
 using Masaafa.WebApi.Extensions;
+using Masaafa.WebApi.Filters;
 using Masaafa.WebApi.Models.Items;
 using Masaafa.WebApi.Models.Warehouses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Masaafa.WebApi.Controllers;
 
+[CustomAuthorize(nameof(UserRole.WarehouseOperator), nameof(UserRole.Supervisor), nameof(UserRole.SalesDirector))]
 public class ItemsController(
     IMapper mapper,
     IValidator<CreateItemRequest> createValidator,
@@ -20,6 +24,7 @@ public class ItemsController(
     IHeaderService headerService
     ) : BaseController
 {
+    [AllowAnonymous]
     [HttpGet]
     public async ValueTask<IActionResult> Get(
         [FromQuery] PaginationParams @params,
@@ -33,6 +38,7 @@ public class ItemsController(
         return Ok(mapper.Map<IEnumerable<ItemResponse>>(result.Data));
     }
 
+    [AllowAnonymous]
     [HttpGet("{itemId:guid}/warehouse-items")]
     public async ValueTask<IActionResult> GetWarehouseById(
         [FromRoute] Guid itemId,
@@ -47,6 +53,7 @@ public class ItemsController(
         return Ok(mapper.Map<IEnumerable<WarehouseItemResponse>>(result.Data));
     }
 
+    [AllowAnonymous]
     [HttpGet("{id:guid}")]
     public async ValueTask<IActionResult> GetById([FromRoute] Guid id)
     {

@@ -2,6 +2,7 @@
 
 public enum UserRole
 {
+    Client,
     Agent,
     WarehouseOperator,
     Supervisor,

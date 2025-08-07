@@ -24,7 +24,15 @@ public class PaymentRepository(AppDbContext context)
             exists = exists.AsNoTracking();
 
         if (search is not null)
-            exists = exists.Where(entity => true);
+            exists = exists.Where(entity => entity.PaymentNumber.ToLower().Contains(search.ToLower())
+                || (entity.Note != null && entity.Note.ToLower().Contains(search.ToLower()))
+                || entity.Client.FirstName.ToLower().Contains(search.ToLower())
+                || entity.Client.LastName.ToLower().Contains(search.ToLower())
+                || entity.Client.PhoneNumber.ToLower().Contains(search.ToLower())
+                || entity.Client.CardCode.ToLower().Contains(search.ToLower())
+                || entity.Client.Balance.ToString().Contains(search)
+                || entity.SalesOrder.SalesOrderNumber.ToLower().Contains(search.ToLower())
+                || entity.SalesOrder.Address.ToLower().Contains(search.ToLower()));
 
         exists = exists
             .OrderBy(filter)

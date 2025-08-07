@@ -9,6 +9,10 @@ public class InventoryConfiguration : IEntityTypeConfiguration<Inventory>
     public void Configure(EntityTypeBuilder<Inventory> builder)
     {
         builder
+            .HasIndex(entity => entity.InventoryNumber)
+            .IsUnique();
+
+        builder
             .HasOne(inventory => inventory.Warehouse)
             .WithMany()
             .HasForeignKey(inventory => inventory.WarehouseId)

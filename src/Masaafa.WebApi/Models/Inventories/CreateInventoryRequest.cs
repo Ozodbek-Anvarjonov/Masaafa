@@ -7,7 +7,7 @@ public class CreateInventoryRequest
 
     public Guid WarehouseId { get; set; }
 
-    public DateTime? StartedDate { get; set; }
+    public DateTimeOffset? StartedDate { get; set; }
 
-    public DateTime? CompletedDate { get; set; }
+    public DateTimeOffset? CompletedDate { get; set; }
 }

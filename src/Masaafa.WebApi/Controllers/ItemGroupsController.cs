@@ -4,12 +4,16 @@ using Masaafa.Application.Common.Abstractions;
 using Masaafa.Application.Services;
 using Masaafa.Domain.Common.Pagination;
 using Masaafa.Domain.Entities;
+using Masaafa.Domain.Enums;
 using Masaafa.WebApi.Extensions;
+using Masaafa.WebApi.Filters;
 using Masaafa.WebApi.Models.Items;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Masaafa.WebApi.Controllers;
 
+[CustomAuthorize(nameof(UserRole.WarehouseOperator), nameof(UserRole.Supervisor), nameof(UserRole.SalesDirector))]
 public class ItemGroupsController(
     IMapper mapper,
     IValidator<CreateItemGroupRequest> createValidator,
@@ -18,6 +22,7 @@ public class ItemGroupsController(
     IItemService itemService,
     IHeaderService headerService) : BaseController
 {
+    [CustomAuthorize(nameof(UserRole.Client), nameof(UserRole.Agent), nameof(UserRole.WarehouseOperator), nameof(UserRole.Supervisor), nameof(UserRole.SalesDirector))]
     [HttpGet]
     public async ValueTask<IActionResult> Get(
         [FromQuery] PaginationParams @params,
@@ -31,6 +36,7 @@ public class ItemGroupsController(
         return Ok(mapper.Map<IEnumerable<ItemGroupResponse>>(result.Data));
     }
 
+    [AllowAnonymous]
     [HttpGet("{itemGroupId:guid}/items")]
     public async ValueTask<IActionResult> GetItemsById(
         [FromRoute] Guid itemGroupId,
@@ -45,6 +51,7 @@ public class ItemGroupsController(
         return Ok(mapper.Map<IEnumerable<ItemResponse>>(result.Data));
     }
 
+    [AllowAnonymous]
     [HttpGet("{id:guid}")]
     public async ValueTask<IActionResult> GetById([FromRoute] Guid id)
     {

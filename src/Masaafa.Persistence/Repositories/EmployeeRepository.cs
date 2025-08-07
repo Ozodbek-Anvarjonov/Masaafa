@@ -20,7 +20,10 @@ public class EmployeeRepository(AppDbContext context) : EntityRepositoryBase<Emp
 
         if (search is not null)
             exists = exists
-                .Where(entity => true);
+                .Where(entity => entity.FirstName.ToLower().Contains(search.ToLower())
+                    || entity.LastName.ToLower().Contains(search.ToLower())
+                    || entity.PhoneNumber.ToLower().Contains(search.ToLower())
+                    || entity.SalesPersonCode.ToLower().Contains(search.ToLower()));
 
         exists = exists.OrderBy(filter);
 

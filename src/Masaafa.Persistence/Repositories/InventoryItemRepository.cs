@@ -24,7 +24,13 @@ public class InventoryItemRepository(AppDbContext context)
             exists = exists.AsNoTracking();
 
         if (search is not null)
-            exists = exists.Where(entity => true);
+            exists = exists.Where(entity => (entity.Notes != null && entity.Notes.ToLower().Contains(search.ToLower()))
+                || entity.Inventory.InventoryNumber.ToLower().Contains(search.ToLower())
+                || (entity.Description != null && entity.Description.ToLower().Contains(search.ToLower()))
+                || entity.ActualQuantity.ToString().Contains(search)
+                || entity.CountedByUser.FirstName.ToLower().Contains(search.ToLower())
+                || entity.CountedByUser.LastName.ToLower().Contains(search.ToLower())
+                || entity.CountedByUser.PhoneNumber.Contains(search));
 
         exists = exists
             .OrderBy(filter)

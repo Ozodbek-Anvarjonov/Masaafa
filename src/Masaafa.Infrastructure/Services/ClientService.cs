@@ -49,7 +49,6 @@ public class ClientService(IUnitOfWork unitOfWork) : IClientService
 
         entity.FirstName = client.FirstName;
         entity.LastName = client.LastName;
-        entity.JobTitle = client.JobTitle;
         entity.CardCode = client.CardCode;
         entity.PhoneNumber = client.PhoneNumber;
 

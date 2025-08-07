@@ -20,7 +20,10 @@ public class WarehouseItemRepository(AppDbContext context) : EntityRepositoryBas
         var exits = Set.Where(entity => !entity.IsDeleted);
 
         if (search is not null)
-            exits = exits.Where(entity => true);
+            exits = exits.Where(entity => entity.Quantity.ToString().Contains(search)
+                || entity.ReservedQuantity.ToString().Contains(search)
+                || entity.Warehouse.Address.ToLower().Contains(search.ToLower())
+                || entity.Item.ItemName.ToLower().Contains(search.ToLower()));
 
         exits = exits.OrderBy(filter);
         exits = exits

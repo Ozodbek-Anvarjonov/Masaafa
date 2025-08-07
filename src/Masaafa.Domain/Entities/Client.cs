@@ -6,5 +6,5 @@ public class Client : User
 
     public decimal Balance { get; set; } = default!;
     
-    public string JobTitle { get; set; } = default!;
+    public long TelegramId { get; set; } = default!;
 }

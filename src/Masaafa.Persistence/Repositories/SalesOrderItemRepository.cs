@@ -24,7 +24,17 @@ public class SalesOrderItemRepository(AppDbContext context)
             exists = exists.AsNoTracking();
 
         if (search is not null)
-            exists = exists.Where(entity => true);
+            exists = exists.Where(entity => entity.DiscountPercent.ToString().Contains(search)
+                || entity.Quantity.ToString().Contains(search)
+                || entity.UnitPrice.ToString().Contains(search)
+                || entity.SalesOrder.SalesOrderNumber.ToLower().Contains(search.ToLower())
+                || entity.SalesOrder.Address.ToLower().Contains(search.ToLower())
+                || entity.SalesOrder.SalesOrderNumber.ToLower().Contains(search.ToLower())
+                || entity.SalesOrder.Address.ToLower().Contains(search.ToLower())
+                || entity.SalesOrder.Client.FirstName.ToLower().Contains(search.ToLower())
+                || entity.SalesOrder.Client.LastName.ToLower().Contains(search.ToLower())
+                || entity.SalesOrder.Client.PhoneNumber.ToLower().Contains(search.ToLower())
+                || entity.SalesOrder.Client.CardCode.ToLower().Contains(search.ToLower()));
 
         exists = exists
             .OrderBy(filter)

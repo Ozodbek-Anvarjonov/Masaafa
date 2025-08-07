@@ -20,5 +20,8 @@ public class CreateSalesOrderRequestValidator : AbstractValidator<CreateSalesOrd
         RuleFor(x => x.Longitude)
             .InclusiveBetween(-180, 180)
             .WithMessage("Longitude must be between -180 and 180.");
+
+        RuleFor(entity => entity.DocDueDate)
+            .LessThanOrEqualTo(DateTimeOffset.UtcNow).WithMessage("Due date cant be less then today.");
     }
 }

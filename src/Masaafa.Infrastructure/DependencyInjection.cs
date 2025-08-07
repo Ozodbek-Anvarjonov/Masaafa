@@ -1,6 +1,8 @@
 ﻿using Masaafa.Application.Common.Identity;
+using Masaafa.Application.Common.Notifications;
 using Masaafa.Application.Services;
 using Masaafa.Infrastructure.Common.Identity;
+using Masaafa.Infrastructure.Common.Notifications;
 using Masaafa.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,6 +37,10 @@ public static class DependencyInjection
             .AddScoped<ISalesOrderItemService, SalesOrderItemService>()
             .AddScoped<ISalesOrderService, SalesOrderService>()
             .AddScoped<IPaymentService, PaymentService>()
-            .AddScoped<IBalanceService, BalanceService>();
+            .AddScoped<IBalanceService, BalanceService>()
+            .AddSingleton<ICommandDispatcherService, CommandDispatcherService>()
+            .AddScoped<IMessageSenderService, MessageSenderService>()
+            .AddScoped<ISalesOrderMessageRenderingService, SalesOrderMessageRenderingService>()
+            .AddScoped<IPaymentMessageRenderingService, PaymentMessageRenderingService>();
     }
 }

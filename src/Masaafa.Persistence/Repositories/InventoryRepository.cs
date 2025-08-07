@@ -25,7 +25,12 @@ public class InventoryRepository(AppDbContext context, IUserContext userContext)
             exists = exists.AsNoTracking();
 
         if (search is not null)
-            exists = exists.Where(entity => true);
+            exists = exists.Where(entity => entity.InventoryNumber.ToLower().Contains(search.ToLower())
+                || (entity.Note != null && entity.Note.ToLower().Contains(search.ToLower()))
+                || entity.Warehouse.Name.ToLower().Contains(search.ToLower())
+                || entity.CreatedByUser.FirstName.ToLower().Contains(search.ToLower())
+                || entity.CreatedByUser.LastName.ToLower().Contains(search.ToLower())
+                || entity.CreatedByUser.PhoneNumber.Contains(search));
 
         exists = exists
             .OrderBy(filter)

@@ -20,7 +20,11 @@ public class ClientRepository(AppDbContext context) : EntityRepositoryBase<Clien
 
         if (search is not null)
             exists = exists
-                .Where(entity => true);
+                .Where(entity => entity.FirstName.ToLower().Contains(search.ToLower())
+                    || entity.LastName.ToLower().Contains(search.ToLower())
+                    || entity.PhoneNumber.ToLower().Contains(search.ToLower())
+                    || entity.CardCode.ToLower().Contains(search.ToLower())
+                    || entity.Balance.ToString().Contains(search));
 
         exists = exists.OrderBy(filter);
 

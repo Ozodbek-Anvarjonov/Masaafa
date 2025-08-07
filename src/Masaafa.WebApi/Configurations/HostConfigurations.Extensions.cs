@@ -14,6 +14,7 @@ using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
 using System.Text.Json.Serialization;
+using Telegram.Bot;
 
 namespace Masaafa.WebApi.Configurations;
 
@@ -40,6 +41,7 @@ public static partial class HostConfigurations
         services.AddSecurity(configuration);
         services.AddServices(configuration);
         services.AddMiddlewares(configuration);
+        services.AddTelegramBot(configuration);
     }
 
     private static void AddExceptionHandler(this IServiceCollection services)
@@ -117,5 +119,12 @@ public static partial class HostConfigurations
         {
             options.LowercaseUrls = true;
         });
+    }
+
+    private static void AddTelegramBot(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddSingleton<ITelegramBotClient>(provider => new TelegramBotClient(configuration["Telegram:BotToken"]!));
+        services.AddHostedService<TelegramPollingService>();
+        services.AddMemoryCache();
     }
 }
